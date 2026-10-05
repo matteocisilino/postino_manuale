@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guida per redattori e lettori — Manuale di Postino</title>
+<style>
+:root { --ink:#1f2933; --muted:#6b7480; --line:#e4e7eb; --accent:#c79b00; --code:#f5f7f9; }
+* { box-sizing: border-box; }
+body { margin:0; font:16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; color:var(--ink); display:flex; min-height:100vh; }
+nav.side { width:280px; flex-shrink:0; border-right:1px solid var(--line); padding:24px 18px; position:sticky; top:0; height:100vh; overflow-y:auto; background:#fafbfc; }
+nav.side h1 { font-size:18px; margin:0 0 16px; }
+nav.side ol { list-style:none; padding:0; margin:0; }
+nav.side li { margin:4px 0; }
+nav.side a { color:var(--ink); text-decoration:none; display:block; padding:6px 8px; border-radius:6px; }
+nav.side a:hover { background:#eef1f4; }
+nav.side a.current { background:#fff4cc; font-weight:600; }
+nav.side .sub { margin-left:14px; font-size:14px; }
+nav.side .sub a { padding:3px 8px; color:var(--muted); }
+main { flex:1; max-width:860px; padding:36px 48px 80px; }
+h1 { font-size:30px; margin-top:0; }
+h2 { font-size:22px; margin-top:40px; border-bottom:1px solid var(--line); padding-bottom:6px; }
+h3 { font-size:18px; margin-top:28px; }
+h4 { font-size:16px; }
+code { background:var(--code); padding:1px 5px; border-radius:4px; font:14px ui-monospace, Menlo, Consolas, monospace; }
+pre { background:var(--code); padding:14px 16px; border-radius:8px; overflow-x:auto; border:1px solid var(--line); }
+pre code { background:none; padding:0; font-size:13px; }
+table { border-collapse:collapse; width:100%; margin:14px 0; font-size:15px; }
+th, td { border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top; }
+th { background:#fafbfc; }
+blockquote { margin:14px 0; padding:8px 14px; border-left:4px solid var(--accent); background:#fffaea; color:var(--ink); }
+.toc { background:#fafbfc; border:1px solid var(--line); border-radius:8px; padding:12px 18px; margin:20px 0 28px; }
+.toc ol { margin:6px 0; padding-left:20px; }
+.toc li { margin:3px 0; }
+.pager { display:flex; justify-content:space-between; margin-top:48px; border-top:1px solid var(--line); padding-top:18px; }
+.pager a { color:var(--ink); text-decoration:none; font-weight:600; }
+@media (max-width: 800px) { body { display:block; } nav.side { width:auto; height:auto; position:static; } main { padding:24px 18px; } }
+</style></head>
+<body><nav class="side"><h1>Manuale di Postino</h1><ol><li><a href="index.html">Indice generale</a></li><li><a href="01-accesso-e-navigazione.html">1. Primo accesso e navigazione</a></li><li><a href="02-namespace-ruoli-utenti.html">2. Namespace, ruoli e utenti</a></li><li><a href="03-liste-e-iscritti.html">3. Liste e iscritti</a></li><li><a href="04-segmenti.html">4. Segmenti</a></li><li><a href="05-campagne.html">5. Campagne</a></li><li><a href="06-galleria-e-spazio.html">6. Galleria media e spazio</a></li><li><a href="07-statistiche.html">7. Statistiche</a></li><li><a href="08-cestino.html">8. Cestino e ripristino</a></li><li><a href="09-api.html">9. API per sviluppatori</a></li><li><a href="10-crediti-invii.html">10. Crediti sugli invii</a></li></ol></nav><main><div class="toc"><strong>In questa pagina</strong><ol><li><a href="#cosa-puoi-fare-in-breve">Cosa puoi fare, in breve</a></li><li><a href="#se-sei-lettore">Se sei lettore</a></li><li><a href="#se-sei-redattore">Se sei redattore</a></li><li><a href="#errori-frequenti">Errori frequenti</a></li></ol></div><h1 id="guida-per-redattori-e-lettori">Guida per redattori e lettori</h1>
+<p>Questa guida è per chi lavora su un namespace con il ruolo di <strong>redattore</strong> o di
+<strong>lettore</strong>. Se sei amministratore, consulta il manuale generale.</p>
+<h2 id="cosa-puoi-fare-in-breve">Cosa puoi fare, in breve</h2>
+<table>
+<thead>
+<tr>
+<th>Attività</th>
+<th style="text-align: center;">Lettore</th>
+<th style="text-align: center;">Redattore</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Consultare liste, iscritti, campagne</td>
+<td style="text-align: center;">sì</td>
+<td style="text-align: center;">sì</td>
+</tr>
+<tr>
+<td>Creare e modificare liste e iscritti</td>
+<td style="text-align: center;">no</td>
+<td style="text-align: center;">sì</td>
+</tr>
+<tr>
+<td>Creare e modificare segmenti</td>
+<td style="text-align: center;">no</td>
+<td style="text-align: center;">sì</td>
+</tr>
+<tr>
+<td>Creare e modificare template</td>
+<td style="text-align: center;">no</td>
+<td style="text-align: center;">sì</td>
+</tr>
+<tr>
+<td>Creare e modificare campagne</td>
+<td style="text-align: center;">no</td>
+<td style="text-align: center;">sì</td>
+</tr>
+<tr>
+<td>Inviare una prova di campagna</td>
+<td style="text-align: center;">no</td>
+<td style="text-align: center;">sì</td>
+</tr>
+<tr>
+<td>Avviare un invio</td>
+<td style="text-align: center;">no</td>
+<td style="text-align: center;">sì</td>
+</tr>
+<tr>
+<td>Caricare e usare immagini nella galleria</td>
+<td style="text-align: center;">no</td>
+<td style="text-align: center;">sì</td>
+</tr>
+<tr>
+<td>Configurare il namespace, mittenti, chiavi API, webhook</td>
+<td style="text-align: center;">no</td>
+<td style="text-align: center;">no</td>
+</tr>
+<tr>
+<td>Assegnare spazio e ruoli</td>
+<td style="text-align: center;">no</td>
+<td style="text-align: center;">no</td>
+</tr>
+</tbody>
+</table>
+<p>I permessi valgono nel namespace in cui hai il ruolo, e anche nei suoi figli.</p>
+<h2 id="se-sei-lettore">Se sei lettore</h2>
+<p>Il tuo lavoro è consultare. Nella barra laterale vedi le sezioni <strong>Liste</strong>,
+<strong>Campagne</strong> e <strong>Template</strong>, ma i pulsanti di modifica non sono disponibili.</p>
+<ul>
+<li><strong>Liste:</strong> apri una lista per vedere gli iscritti, i campi, lo stato di ciascun
+  indirizzo e la verifica email.</li>
+<li><strong>Campagne:</strong> apri una campagna per leggere il contenuto, lo stato dell'invio e i
+  risultati. Non puoi modificarla, né avviarla o metterla in pausa.</li>
+<li><strong>Template:</strong> puoi leggerli, non modificarli.</li>
+</ul>
+<p>Se ti serve una modifica, chiedila a un redattore o all'amministratore del tuo
+namespace.</p>
+<h2 id="se-sei-redattore">Se sei redattore</h2>
+<h3 id="liste-e-iscritti">Liste e iscritti</h3>
+<p>Il lavoro sulle liste è descritto nel manuale generale, nei capitoli <em>Liste e
+iscritti</em> e <em>Segmenti</em>. In sintesi:</p>
+<ul>
+<li>crei una lista e ne scegli la modalità di opt-in;</li>
+<li>importi iscritti da un file CSV, o ne aggiungi uno alla volta;</li>
+<li>controlli lo stato di verifica degli indirizzi prima di inviare.</li>
+</ul>
+<h3 id="campagne">Campagne</h3>
+<p>Per creare una campagna vai in <strong>Campagne → Nuova</strong>.</p>
+<ol>
+<li><strong>Impostazioni.</strong> Dai un nome, un oggetto e scegli il <strong>mittente</strong>.</li>
+<li><strong>Destinatari.</strong> Nel campo <strong>Destinatari</strong> scrivi il nome di una lista o di un
+   segmento: compaiono i suggerimenti, ciascuno con il tipo (<strong>Lista</strong> o
+   <strong>Segmento</strong>). Puoi anche spuntarli nel pannello dei segmenti. Se ti serve un
+   segmento che non esiste, scegli <strong>+ Crea segmento</strong>. Un iscritto che rientra in
+   più destinatari riceve la campagna una sola volta.</li>
+<li><strong>Contenuto.</strong> Usa l'editor visuale: trascini i blocchi nel messaggio. Se hai
+   già un template, puoi partire da quello con <strong>Parti da un template</strong>.</li>
+<li><strong>Immagini.</strong> Usa <strong>Galleria media</strong> per scegliere un'immagine già caricata
+   nel namespace, o per caricarne una nuova. Per inserirla, seleziona prima una
+   colonna nel messaggio: l'immagine va dentro quella colonna. Con un doppio clic
+   su un'immagine già presente, la galleria la sostituisce.</li>
+<li><strong>Pagina da un sito.</strong> Il pannello di scraping ti permette di copiare il
+   contenuto di una pagina web, o gli ultimi articoli di un sito WordPress, e
+   trascinarlo nel messaggio. Le immagini scaricate finiscono nella galleria del
+   namespace e si riusano in altre campagne.</li>
+<li><strong>Prova.</strong> Prima di inviare, manda una prova al tuo indirizzo. La prova è
+   consentita solo al tuo indirizzo.</li>
+<li><strong>Salva.</strong> Il pulsante <strong>Salva</strong> conserva la campagna senza inviarla.</li>
+</ol>
+<p>Per avviare l'invio apri la campagna e usa il pulsante di avvio. Durante l'invio
+puoi metterla in pausa, riprenderla o annullarla. Se un iscritto è in attesa di
+verifica email, la campagna lo segnala nel banner e non lo includerà finché
+l'esito non è disponibile.</p>
+<h3 id="galleria-media-e-spazio">Galleria media e spazio</h3>
+<p>La <strong>Galleria media</strong> è condivisa da tutto il namespace: le immagini caricate da
+un redattore sono visibili a tutti i colleghi del namespace.</p>
+<ul>
+<li>Il caricamento accetta JPG, PNG, GIF e WebP, fino a 5 MB per file.</li>
+<li>Lo spazio è del namespace. Nella finestra della galleria vedi lo spazio usato,
+  quello libero e la soglia di avviso.</li>
+<li>Se lo spazio è esaurito, il caricamento è bloccato. Puoi liberare spazio
+  eliminando immagini che non usi più, oppure chiedere all'amministratore di
+  assegnarne altro.</li>
+<li>Eliminare un'immagine la toglie anche dalle campagne che la usano: le loro
+  immagini smettono di comparire.</li>
+</ul>
+<h3 id="statistiche">Statistiche</h3>
+<p>Le statistiche di una campagna sono nella sua scheda. Il dettaglio delle viste
+disponibili è descritto nel manuale generale, nel capitolo <em>Statistiche</em>, che è in
+preparazione.</p>
+<h2 id="errori-frequenti">Errori frequenti</h2>
+<ul>
+<li><strong>"Spazio media esaurito"</strong>: lo spazio del namespace è pieno. Elimina immagini
+  inutilizzate o chiedi più spazio.</li>
+<li><strong>Un destinatario non compare</strong>: il suo indirizzo non è ancora stato verificato,
+  oppure è stato escluso (non valido, disiscritto, in una lista di soppressione).</li>
+<li><strong>Prova non inviata</strong>: la prova si può mandare solo al tuo indirizzo.</li>
+<li><strong>Campagna non modificabile</strong>: è già stata avviata. Una campagna in invio non
+  si cambia.</li>
+</ul></main></body></html>

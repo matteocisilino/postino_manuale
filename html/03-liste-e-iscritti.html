@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3. Liste e iscritti — Manuale di Postino</title>
+<style>
+:root { --ink:#1f2933; --muted:#6b7480; --line:#e4e7eb; --accent:#c79b00; --code:#f5f7f9; }
+* { box-sizing: border-box; }
+body { margin:0; font:16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; color:var(--ink); display:flex; min-height:100vh; }
+nav.side { width:280px; flex-shrink:0; border-right:1px solid var(--line); padding:24px 18px; position:sticky; top:0; height:100vh; overflow-y:auto; background:#fafbfc; }
+nav.side h1 { font-size:18px; margin:0 0 16px; }
+nav.side ol { list-style:none; padding:0; margin:0; }
+nav.side li { margin:4px 0; }
+nav.side a { color:var(--ink); text-decoration:none; display:block; padding:6px 8px; border-radius:6px; }
+nav.side a:hover { background:#eef1f4; }
+nav.side a.current { background:#fff4cc; font-weight:600; }
+nav.side .sub { margin-left:14px; font-size:14px; }
+nav.side .sub a { padding:3px 8px; color:var(--muted); }
+main { flex:1; max-width:860px; padding:36px 48px 80px; }
+h1 { font-size:30px; margin-top:0; }
+h2 { font-size:22px; margin-top:40px; border-bottom:1px solid var(--line); padding-bottom:6px; }
+h3 { font-size:18px; margin-top:28px; }
+h4 { font-size:16px; }
+code { background:var(--code); padding:1px 5px; border-radius:4px; font:14px ui-monospace, Menlo, Consolas, monospace; }
+pre { background:var(--code); padding:14px 16px; border-radius:8px; overflow-x:auto; border:1px solid var(--line); }
+pre code { background:none; padding:0; font-size:13px; }
+table { border-collapse:collapse; width:100%; margin:14px 0; font-size:15px; }
+th, td { border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top; }
+th { background:#fafbfc; }
+blockquote { margin:14px 0; padding:8px 14px; border-left:4px solid var(--accent); background:#fffaea; color:var(--ink); }
+.toc { background:#fafbfc; border:1px solid var(--line); border-radius:8px; padding:12px 18px; margin:20px 0 28px; }
+.toc ol { margin:6px 0; padding-left:20px; }
+.toc li { margin:3px 0; }
+.pager { display:flex; justify-content:space-between; margin-top:48px; border-top:1px solid var(--line); padding-top:18px; }
+.pager a { color:var(--ink); text-decoration:none; font-weight:600; }
+@media (max-width: 800px) { body { display:block; } nav.side { width:auto; height:auto; position:static; } main { padding:24px 18px; } }
+</style></head>
+<body><nav class="side"><h1>Manuale di Postino</h1><ol><li><a href="index.html">Indice generale</a></li><li><a href="01-accesso-e-navigazione.html">1. Primo accesso e navigazione</a></li><li><a href="02-namespace-ruoli-utenti.html">2. Namespace, ruoli e utenti</a></li><li><a href="03-liste-e-iscritti.html" class="current">3. Liste e iscritti</a></li><li><a href="04-segmenti.html">4. Segmenti</a></li><li><a href="05-campagne.html">5. Campagne</a></li><li><a href="06-galleria-e-spazio.html">6. Galleria media e spazio</a></li><li><a href="07-statistiche.html">7. Statistiche</a></li><li><a href="08-cestino.html">8. Cestino e ripristino</a></li><li><a href="09-api.html">9. API per sviluppatori</a></li><li><a href="10-crediti-invii.html">10. Crediti sugli invii</a></li></ol></nav><main><div class="toc"><strong>In questa pagina</strong><ol><li><a href="#creare-una-lista">Creare una lista</a></li><li><a href="#le-modalita-di-opt-in">Le modalità di opt-in</a></li><li><a href="#la-pagina-della-lista">La pagina della lista</a></li><li><a href="#importare-iscritti-da-csv">Importare iscritti da CSV</a></li><li><a href="#aggiungere-un-iscritto-a-mano">Aggiungere un iscritto a mano</a></li><li><a href="#esportare-la-lista">Esportare la lista</a></li><li><a href="#verifica-email">Verifica email</a></li></ol></div><h1 id="3-liste-e-iscritti">3. Liste e iscritti</h1>
+<h2 id="creare-una-lista">Creare una lista</h2>
+<p>Vai in <strong>Liste → Nuova lista</strong>. Compila:</p>
+<ul>
+<li><strong>Namespace:</strong> dove vive la lista.</li>
+<li><strong>Nome</strong> e <strong>descrizione</strong> (facoltativa).</li>
+<li><strong>Modalità di opt-in</strong>: come entrano gli iscritti (vedi sotto).</li>
+<li><strong>Verifica email con recipientcheck</strong>: attiva o disattiva il controllo degli
+  indirizzi per questa lista. Lo trovi sotto la modalità di opt-in.</li>
+</ul>
+<p>Il riquadro della verifica mostra il saldo crediti del namespace e il costo di una
+verifica, così sai quanto costa prima di creare la lista.</p>
+<h2 id="le-modalita-di-opt-in">Le modalità di opt-in</h2>
+<p>Il simbolo <strong>?</strong> accanto alla modalità apre la spiegazione delle quattro scelte:</p>
+<ul>
+<li><strong>Singolo (predefinito):</strong> l'iscritto entra subito, senza mail di conferma. Usala
+  solo se hai già un consenso valido, per esempio iscrizioni fatte sul tuo sito.</li>
+<li><strong>Doppio opt-in:</strong> l'iscritto resta in attesa finché non clicca il link della mail
+  di conferma. È la scelta più sicura per il consenso e la reputazione.</li>
+<li><strong>Doppio solo se non valido:</strong> con la verifica attiva, un indirizzo valido entra
+  subito; uno incerto (<code>risky</code> o <code>unknown</code>) riceve la conferma; uno non valido viene
+  escluso. Senza verifica si comporta come il doppio opt-in.</li>
+<li><strong>Singolo con conferma per indirizzi incerti:</strong> entrano subito; quelli incerti
+  tornano in attesa e ricevono la conferma. Senza verifica si comporta come il singolo.</li>
+</ul>
+<p>Puoi cambiare la modalità in qualsiasi momento dalla pagina della lista, con il
+pulsante <strong>Modifica</strong>. La modifica vale per le iscrizioni future: chi è già nella
+lista non cambia stato.</p>
+<h2 id="la-pagina-della-lista">La pagina della lista</h2>
+<p>Aprendo una lista vedi:</p>
+<ul>
+<li>la riga con <strong>modalità di opt-in</strong>, <strong>stato della verifica</strong> e <strong>saldo crediti</strong>;</li>
+<li>il pannello <strong>Importa CSV</strong>;</li>
+<li>i <strong>Campi personalizzati</strong> e i <strong>Segmenti</strong>;</li>
+<li>la tabella degli <strong>Iscritti</strong>, con stato e verifica email di ciascuno.</li>
+</ul>
+<h2 id="importare-iscritti-da-csv">Importare iscritti da CSV</h2>
+<p>Nella pagina della lista, in <strong>Importa CSV</strong>:</p>
+<ol>
+<li>Clicca <strong>Scegli file CSV</strong> e seleziona il file (<code>.csv</code> o <code>.txt</code>).</li>
+<li>Verifica la mappatura: a sinistra la colonna del file, a destra il campo di
+   Postino. La colonna con l'email è obbligatoria.</li>
+<li>Clicca <strong>Importa</strong>. Il file viene elaborato in background; lo stato si segue
+   mentre avanza.</li>
+</ol>
+<p>Gli iscritti importati entrano come <strong>singoli</strong>, anche se la lista è a doppio
+opt-in: il file rappresenta già il consenso di chi l'ha fornito. Se la verifica
+email è attiva, gli indirizzi vengono controllati come gli altri.</p>
+<h2 id="aggiungere-un-iscritto-a-mano">Aggiungere un iscritto a mano</h2>
+<p>Nella tabella degli iscritti usa <strong>Aggiungi iscritto</strong>: inserisci l'email e i campi
+personalizzati. La verifica email, se attiva per la lista, parte dopo l'inserimento.</p>
+<h2 id="esportare-la-lista">Esportare la lista</h2>
+<p>Dalla pagina della lista, <strong>Esporta CSV</strong> scarica tutti gli iscritti con i loro campi.</p>
+<h2 id="verifica-email">Verifica email</h2>
+<p>Quando la verifica è attiva, gli indirizzi nuovi vengono controllati da
+recipientcheck in background. L'esito appare nella colonna <strong>Verifica email</strong>:</p>
+<ul>
+<li><strong>valida:</strong> può ricevere le campagne;</li>
+<li><strong>incerta</strong> (<code>risky</code> o <code>unknown</code>): non riceve campagne finché non diventa valida;</li>
+<li><strong>non valida:</strong> viene esclusa dagli invii futuri.</li>
+</ul>
+<p>Nella pagina della campagna un banner indica quanti destinatari sono ancora in
+attesa di verifica: la campagna parte solo con gli indirizzi già esaminati.</p><div class="pager"><span><a href="02-namespace-ruoli-utenti.html">← 2. Namespace, ruoli e utenti</a></span><span><a href="04-segmenti.html">4. Segmenti →</a></span></div></main></body></html>

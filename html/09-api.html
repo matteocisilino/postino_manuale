@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>9. API per sviluppatori — Manuale di Postino</title>
+<style>
+:root { --ink:#1f2933; --muted:#6b7480; --line:#e4e7eb; --accent:#c79b00; --code:#f5f7f9; }
+* { box-sizing: border-box; }
+body { margin:0; font:16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; color:var(--ink); display:flex; min-height:100vh; }
+nav.side { width:280px; flex-shrink:0; border-right:1px solid var(--line); padding:24px 18px; position:sticky; top:0; height:100vh; overflow-y:auto; background:#fafbfc; }
+nav.side h1 { font-size:18px; margin:0 0 16px; }
+nav.side ol { list-style:none; padding:0; margin:0; }
+nav.side li { margin:4px 0; }
+nav.side a { color:var(--ink); text-decoration:none; display:block; padding:6px 8px; border-radius:6px; }
+nav.side a:hover { background:#eef1f4; }
+nav.side a.current { background:#fff4cc; font-weight:600; }
+nav.side .sub { margin-left:14px; font-size:14px; }
+nav.side .sub a { padding:3px 8px; color:var(--muted); }
+main { flex:1; max-width:860px; padding:36px 48px 80px; }
+h1 { font-size:30px; margin-top:0; }
+h2 { font-size:22px; margin-top:40px; border-bottom:1px solid var(--line); padding-bottom:6px; }
+h3 { font-size:18px; margin-top:28px; }
+h4 { font-size:16px; }
+code { background:var(--code); padding:1px 5px; border-radius:4px; font:14px ui-monospace, Menlo, Consolas, monospace; }
+pre { background:var(--code); padding:14px 16px; border-radius:8px; overflow-x:auto; border:1px solid var(--line); }
+pre code { background:none; padding:0; font-size:13px; }
+table { border-collapse:collapse; width:100%; margin:14px 0; font-size:15px; }
+th, td { border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top; }
+th { background:#fafbfc; }
+blockquote { margin:14px 0; padding:8px 14px; border-left:4px solid var(--accent); background:#fffaea; color:var(--ink); }
+.toc { background:#fafbfc; border:1px solid var(--line); border-radius:8px; padding:12px 18px; margin:20px 0 28px; }
+.toc ol { margin:6px 0; padding-left:20px; }
+.toc li { margin:3px 0; }
+.pager { display:flex; justify-content:space-between; margin-top:48px; border-top:1px solid var(--line); padding-top:18px; }
+.pager a { color:var(--ink); text-decoration:none; font-weight:600; }
+@media (max-width: 800px) { body { display:block; } nav.side { width:auto; height:auto; position:static; } main { padding:24px 18px; } }
+</style></head>
+<body><nav class="side"><h1>Manuale di Postino</h1><ol><li><a href="index.html">Indice generale</a></li><li><a href="01-accesso-e-navigazione.html">1. Primo accesso e navigazione</a></li><li><a href="02-namespace-ruoli-utenti.html">2. Namespace, ruoli e utenti</a></li><li><a href="03-liste-e-iscritti.html">3. Liste e iscritti</a></li><li><a href="04-segmenti.html">4. Segmenti</a></li><li><a href="05-campagne.html">5. Campagne</a></li><li><a href="06-galleria-e-spazio.html">6. Galleria media e spazio</a></li><li><a href="07-statistiche.html">7. Statistiche</a></li><li><a href="08-cestino.html">8. Cestino e ripristino</a></li><li><a href="09-api.html" class="current">9. API per sviluppatori</a></li><li><a href="10-crediti-invii.html">10. Crediti sugli invii</a></li></ol></nav><main><div class="toc"><strong>In questa pagina</strong><ol><li><a href="#panoramica">Panoramica</a></li><li><a href="#autenticazione">Autenticazione</a></li><li><a href="#limite-di-richieste">Limite di richieste</a></li><li><a href="#errori">Errori</a></li><li><a href="#idempotenza">Idempotenza</a></li><li><a href="#endpoint">Endpoint</a></li><li><a href="#webhook-ricevere-notifiche">Webhook: ricevere notifiche</a></li><li><a href="#un-piccolo-client-riutilizzabile">Un piccolo client riutilizzabile</a></li></ol></div><h1 id="9-api-per-sviluppatori">9. API per sviluppatori</h1>
+<p>Questo capitolo serve a collegare un sistema esterno a Postino (un sito, un
+e-commerce, un CRM, un'applicazione interna) senza usare la console. Gli esempi sono
+in <strong>PHP</strong>, <strong>Ruby</strong> e <strong>Python</strong>, ma l'API è un normale servizio HTTP con risposte
+JSON: qualsiasi linguaggio con un client HTTP può usarla.</p>
+<h2 id="panoramica">Panoramica</h2>
+<table>
+<thead>
+<tr>
+<th>Cosa</th>
+<th>Dove</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>URL di base</td>
+<td><code>https://&lt;tua-istanza&gt;/api/v1</code></td>
+</tr>
+<tr>
+<td>Formato</td>
+<td>JSON, UTF-8</td>
+</tr>
+<tr>
+<td>Autenticazione</td>
+<td><code>Authorization: Bearer &lt;chiave&gt;</code></td>
+</tr>
+<tr>
+<td>Errori</td>
+<td>RFC 9457 (<code>application/problem+json</code>)</td>
+</tr>
+<tr>
+<td>Limite</td>
+<td>10 richieste al secondo per chiave</td>
+</tr>
+</tbody>
+</table>
+<p>La documentazione interattiva (OpenAPI) è disponibile su <code>/api/v1/docs</code> della tua
+istanza.</p>
+<h2 id="autenticazione">Autenticazione</h2>
+<p>Crea una chiave dalla console, nella pagina <strong>Chiavi API</strong>. La chiave ha un formato
+del tipo <code>pst_&lt;prefisso&gt;_&lt;segreto&gt;</code> ed è legata a:</p>
+<ul>
+<li><strong>un namespace</strong>: l'API vede solo le liste di quel namespace;</li>
+<li><strong>uno o più scope</strong>, cioè i permessi;</li>
+<li>facoltativamente, un elenco di <strong>liste ammesse</strong>: la chiave non vede le altre.</li>
+</ul>
+<p>Il segreto viene mostrato <strong>una sola volta</strong>, alla creazione. Conservalo nel gestore
+di segreti del tuo sistema, mai nel codice sorgente.</p>
+<p>Gli scope disponibili:</p>
+<table>
+<thead>
+<tr>
+<th>Scope</th>
+<th>Permette</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>lists:read</code></td>
+<td>leggere le liste e i loro campi</td>
+</tr>
+<tr>
+<td><code>subscribers:read</code></td>
+<td>leggere un iscritto</td>
+</tr>
+<tr>
+<td><code>subscribers:write</code></td>
+<td>iscrivere, modificare, disiscrivere, cancellare</td>
+</tr>
+<tr>
+<td><code>campaigns:read</code></td>
+<td>leggere le campagne</td>
+</tr>
+<tr>
+<td><code>campaigns:trigger</code></td>
+<td>inviare un'email automatica da una campagna triggered</td>
+</tr>
+</tbody>
+</table>
+<p>Una richiesta senza lo scope necessario risponde <code>403</code>.</p>
+<p>Esempio di intestazione:</p>
+<pre><code>Authorization: Bearer pst_a1b2c3d4_&lt;segreto&gt;
+</code></pre>
+<h2 id="limite-di-richieste">Limite di richieste</h2>
+<p>Il limite è di <strong>10 richieste al secondo per chiave</strong>. Ogni risposta include:</p>
+<pre><code>X-RateLimit-Limit: 10
+X-RateLimit-Remaining: 7
+X-RateLimit-Reset: 1735689600
+</code></pre>
+<p>Oltre il limite Postino risponde <code>429</code>. Il comportamento corretto del client è
+aspettare fino al momento indicato da <code>X-RateLimit-Reset</code> e riprovare.</p>
+<h2 id="errori">Errori</h2>
+<p>Gli errori seguono lo standard RFC 9457:</p>
+<pre><code class="language-json">{
+  &quot;type&quot;: &quot;about:blank&quot;,
+  &quot;title&quot;: &quot;NotFoundError&quot;,
+  &quot;status&quot;: 404,
+  &quot;detail&quot;: &quot;Lista non trovata.&quot;
+}
+</code></pre>
+<ul>
+<li><code>status</code>: il codice HTTP.</li>
+<li><code>title</code>: il tipo di errore, stabile e adatto allo smistamento nel codice
+  (<code>NotFoundError</code>, <code>ConflictError</code>, <code>SuppressedError</code>, <code>ValidationDomainError</code>).</li>
+<li><code>detail</code>: un messaggio in italiano, pensato per essere mostrato a una persona. Non
+  usarlo per la logica del programma.</li>
+</ul>
+<p>I codici più comuni:</p>
+<table>
+<thead>
+<tr>
+<th>Codice</th>
+<th>Significato</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>200</code>, <code>201</code>, <code>204</code></td>
+<td>operazione riuscita (<code>201</code> = creato)</td>
+</tr>
+<tr>
+<td><code>401</code></td>
+<td>chiave mancante o non valida</td>
+</tr>
+<tr>
+<td><code>403</code></td>
+<td>scope insufficiente</td>
+</tr>
+<tr>
+<td><code>404</code></td>
+<td>risorsa non trovata</td>
+</tr>
+<tr>
+<td><code>409</code></td>
+<td>indirizzo in una lista di soppressione</td>
+</tr>
+<tr>
+<td><code>422</code></td>
+<td>dati non validi (per esempio email malformata)</td>
+</tr>
+<tr>
+<td><code>429</code></td>
+<td>troppe richieste</td>
+</tr>
+</tbody>
+</table>
+<h2 id="idempotenza">Idempotenza</h2>
+<p>Per l'iscrizione puoi inviare l'intestazione <code>Idempotency-Key</code> con un valore scelto
+da te, per esempio l'id dell'ordine. Postino conserva la risposta per <strong>24 ore</strong>: una
+seconda richiesta con la stessa chiave riceve la risposta della prima, senza ripetere
+l'operazione. È utile quando il client riprova in automatico dopo un errore di rete.</p>
+<h2 id="endpoint">Endpoint</h2>
+<h3 id="liste">Liste</h3>
+<h4 id="get-apiv1lists"><code>GET /api/v1/lists</code></h4>
+<p>Scope <code>lists:read</code>. Restituisce le liste visibili alla chiave.</p>
+<h4 id="get-apiv1listslist_cidfields"><code>GET /api/v1/lists/{list_cid}/fields</code></h4>
+<p>Scope <code>lists:read</code>. Restituisce i campi personalizzati della lista: utili per
+costruire un modulo esterno con gli stessi campi della console.</p>
+<h3 id="iscritti">Iscritti</h3>
+<h4 id="post-apiv1listslist_cidsubscriptions"><code>POST /api/v1/lists/{list_cid}/subscriptions</code></h4>
+<p>Scope <code>subscribers:write</code>. Iscrive un indirizzo alla lista.</p>
+<p>Corpo della richiesta:</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Obbligatorio</th>
+<th>Descrizione</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>email</code></td>
+<td>sì</td>
+<td>indirizzo da iscrivere</td>
+</tr>
+<tr>
+<td><code>fields</code></td>
+<td>no</td>
+<td>campi personalizzati, per esempio <code>{"FIRST_NAME": "Maria"}</code></td>
+</tr>
+<tr>
+<td><code>double_opt_in</code></td>
+<td>no</td>
+<td><code>true</code> = doppio opt-in, <code>false</code> = singolo; se omesso vale la modalità della lista</td>
+</tr>
+<tr>
+<td><code>force_resubscribe</code></td>
+<td>no</td>
+<td><code>true</code> per reiscrivere chi si era disiscritto</td>
+</tr>
+<tr>
+<td><code>source_label</code></td>
+<td>no</td>
+<td>etichetta libera per sapere da dove arriva l'iscrizione</td>
+</tr>
+</tbody>
+</table>
+<p>Risposte: <code>201</code> nuovo iscritto (in attesa di conferma se la modalità lo richiede),
+<code>200</code> già presente o aggiornato, <code>409</code> indirizzo soppresso, <code>422</code> dati non validi.</p>
+<p><strong>PHP</strong> (Guzzle):</p>
+<pre><code class="language-php">use GuzzleHttp\Client;
+
+$http = new Client(['base_uri' =&gt; 'https://posta.esempio.it/api/v1/', 'http_errors' =&gt; false]);
+
+$response = $http-&gt;post(&quot;lists/{$listCid}/subscriptions&quot;, [
+    'headers' =&gt; [
+        'Authorization' =&gt; &quot;Bearer {$token}&quot;,
+        'Idempotency-Key' =&gt; 'ordine-8841',
+    ],
+    'json' =&gt; [
+        'email' =&gt; 'cliente@esempio.it',
+        'fields' =&gt; ['FIRST_NAME' =&gt; 'Maria'],
+        'double_opt_in' =&gt; true,
+        'source_label' =&gt; 'checkout',
+    ],
+]);
+
+echo $response-&gt;getStatusCode(), ' ', $response-&gt;getBody();
+</code></pre>
+<p><strong>Ruby</strong> (libreria standard):</p>
+<pre><code class="language-ruby">require &quot;net/http&quot;
+require &quot;json&quot;
+require &quot;uri&quot;
+
+uri = URI(&quot;https://posta.esempio.it/api/v1/lists/#{list_cid}/subscriptions&quot;)
+req = Net::HTTP::Post.new(uri)
+req[&quot;Authorization&quot;] = &quot;Bearer #{token}&quot;
+req[&quot;Idempotency-Key&quot;] = &quot;ordine-8841&quot;
+req[&quot;Content-Type&quot;] = &quot;application/json&quot;
+req.body = {
+  email: &quot;cliente@esempio.it&quot;,
+  fields: { FIRST_NAME: &quot;Maria&quot; },
+  double_opt_in: true,
+  source_label: &quot;checkout&quot;
+}.to_json
+
+res = Net::HTTP.start(uri.host, uri.port, use_ssl: true) { |http| http.request(req) }
+puts &quot;#{res.code} #{res.body}&quot;
+</code></pre>
+<p><strong>Python</strong> (libreria <code>requests</code>):</p>
+<pre><code class="language-python">import requests
+
+response = requests.post(
+    f&quot;https://posta.esempio.it/api/v1/lists/{list_cid}/subscriptions&quot;,
+    headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;, &quot;Idempotency-Key&quot;: &quot;ordine-8841&quot;},
+    json={
+        &quot;email&quot;: &quot;cliente@esempio.it&quot;,
+        &quot;fields&quot;: {&quot;FIRST_NAME&quot;: &quot;Maria&quot;},
+        &quot;double_opt_in&quot;: True,
+        &quot;source_label&quot;: &quot;checkout&quot;,
+    },
+    timeout=10,
+)
+print(response.status_code, response.text)
+</code></pre>
+<h4 id="get-apiv1listslist_cidsubscriptionsemail"><code>GET /api/v1/lists/{list_cid}/subscriptions/{email}</code></h4>
+<p>Scope <code>subscribers:read</code>. Restituisce stato e campi dell'iscritto. Risponde <code>404</code>
+sia se l'iscritto non esiste sia se l'indirizzo non è valido: così non si rivela a
+chi non dovrebbe la presenza di un contatto.</p>
+<h4 id="patch-apiv1listslist_cidsubscriptionsemail"><code>PATCH /api/v1/lists/{list_cid}/subscriptions/{email}</code></h4>
+<p>Scope <code>subscribers:write</code>. Aggiorna i campi personalizzati. È un'unione: i campi che
+non invii restano invariati.</p>
+<pre><code class="language-python">requests.patch(
+    f&quot;https://posta.esempio.it/api/v1/lists/{list_cid}/subscriptions/cliente@esempio.it&quot;,
+    headers={&quot;Authorization&quot;: f&quot;Bearer {token}&quot;},
+    json={&quot;fields&quot;: {&quot;CITY&quot;: &quot;Milano&quot;}},
+    timeout=10,
+)
+</code></pre>
+<h4 id="post-apiv1listslist_cidunsubscribe"><code>POST /api/v1/lists/{list_cid}/unsubscribe</code></h4>
+<p>Scope <code>subscribers:write</code>. Corpo: <code>{"email": "..."}</code>. È idempotente: se l'indirizzo
+è già disiscritto risponde <code>204</code> senza errore.</p>
+<h4 id="delete-apiv1listslist_cidsubscriptionsemail"><code>DELETE /api/v1/lists/{list_cid}/subscriptions/{email}</code></h4>
+<p>Scope <code>subscribers:write</code>. Cancellazione per GDPR: l'indirizzo viene anonimizzato,
+non cancellato, per non rompere la storia degli invii. Risponde <code>204</code>.</p>
+<h3 id="campagne-triggered">Campagne triggered</h3>
+<h4 id="post-apiv1campaignscampaign_cidtrigger"><code>POST /api/v1/campaigns/{campaign_cid}/trigger</code></h4>
+<p>Scope <code>campaigns:trigger</code>. Invia subito un'email usando una campagna di tipo
+<strong>triggered</strong> come modello. Serve per le automazioni legate a un evento (ordine
+confermato, carrello abbandonato), non per gli invii di massa.</p>
+<p>Vincoli:</p>
+<ul>
+<li>il destinatario deve essere <strong>già iscritto e confermato</strong> alla lista della campagna;
+  altrimenti risponde <code>404</code> e non invia nulla;</li>
+<li>i valori in <code>data</code> valgono solo per questo invio: diventano segnaposto come
+  <code>[ORDER_ID]</code> nel modello, senza essere salvati sull'iscritto.</li>
+</ul>
+<p>Corpo: <code>{"email": "...", "data": {"ORDER_ID": "A-1042"}}</code>. Risposta <code>200</code> con
+<code>{"status": "sent", "campaign_message_id": 68}</code>, oppure <code>"failed"</code> se il server di
+posta ha rifiutato il messaggio.</p>
+<pre><code class="language-ruby">uri = URI(&quot;https://posta.esempio.it/api/v1/campaigns/#{campaign_cid}/trigger&quot;)
+req = Net::HTTP::Post.new(uri)
+req[&quot;Authorization&quot;] = &quot;Bearer #{token}&quot;
+req[&quot;Content-Type&quot;] = &quot;application/json&quot;
+req.body = { email: &quot;cliente@esempio.it&quot;, data: { ORDER_ID: &quot;A-1042&quot;, AMOUNT: &quot;39.90&quot; } }.to_json
+res = Net::HTTP.start(uri.host, uri.port, use_ssl: true) { |http| http.request(req) }
+</code></pre>
+<h2 id="webhook-ricevere-notifiche">Webhook: ricevere notifiche</h2>
+<p>I webhook non si configurano dall'API ma dalla console, nella pagina <strong>Webhook</strong>.
+Postino chiama il tuo endpoint quando succede qualcosa.</p>
+<p>Eventi: <code>subscriber.created</code>, <code>subscriber.confirmed</code>, <code>subscriber.unsubscribed</code>,
+<code>subscriber.bounced</code>, <code>subscriber.complained</code>, <code>campaign.finished</code>.</p>
+<p>Ogni chiamata porta:</p>
+<ul>
+<li><code>X-Postino-Event</code>: il nome dell'evento;</li>
+<li><code>X-Postino-Signature</code>: firma HMAC-SHA256 del corpo, con il segreto del webhook, in
+  esadecimale;</li>
+<li>corpo JSON: <code>{"event": "subscriber.bounced", "data": {...}}</code>.</li>
+</ul>
+<p><strong>Verifica sempre la firma prima di fidarti del contenuto.</strong> Se la risposta non è
+2xx, Postino riprova con attese crescenti (1, 5, 15, 30 minuti, poi 1, 2, 4, 8 ore),
+per un massimo di 9 tentativi.</p>
+<p><strong>PHP:</strong></p>
+<pre><code class="language-php">$expected = hash_hmac('sha256', $rawBody, $webhookSecret);
+if (! hash_equals($expected, $_SERVER['HTTP_X_POSTINO_SIGNATURE'] ?? '')) {
+    http_response_code(401);
+    exit;
+}
+</code></pre>
+<p><strong>Ruby:</strong></p>
+<pre><code class="language-ruby">require &quot;openssl&quot;
+
+expected = OpenSSL::HMAC.hexdigest(&quot;SHA256&quot;, webhook_secret, raw_body)
+valid = Rack::Utils.secure_compare(expected, request.get_header(&quot;HTTP_X_POSTINO_SIGNATURE&quot;).to_s)
+</code></pre>
+<p><strong>Python:</strong></p>
+<pre><code class="language-python">import hashlib
+import hmac
+
+expected = hmac.new(webhook_secret.encode(), raw_body, hashlib.sha256).hexdigest()
+valid = hmac.compare_digest(expected, request.headers.get(&quot;X-Postino-Signature&quot;, &quot;&quot;))
+</code></pre>
+<p>Nota: la firma va calcolata sul corpo <strong>grezzo</strong> della richiesta, prima di
+qualsiasi decodifica JSON.</p>
+<h2 id="un-piccolo-client-riutilizzabile">Un piccolo client riutilizzabile</h2>
+<p>Per non ripetere l'intestazione in ogni chiamata, incapsula le richieste in una
+classe o in una funzione. Esempio in Python:</p>
+<pre><code class="language-python">class Postino:
+    def __init__(self, base_url: str, token: str):
+        self.base = base_url.rstrip(&quot;/&quot;) + &quot;/api/v1&quot;
+        self.headers = {&quot;Authorization&quot;: f&quot;Bearer {token}&quot;}
+
+    def subscribe(self, list_cid: str, email: str, fields: dict | None = None, **extra):
+        body = {&quot;email&quot;: email, &quot;fields&quot;: fields or {}, **extra}
+        return requests.post(f&quot;{self.base}/lists/{list_cid}/subscriptions&quot;,
+                             headers=self.headers, json=body, timeout=10)
+</code></pre>
+<p>Gli stessi principi valgono per PHP (una classe con Guzzle) e per Ruby (un modulo con
+<code>Net::HTTP</code>).</p><div class="pager"><span><a href="08-cestino.html">← 8. Cestino e ripristino</a></span><span><a href="10-crediti-invii.html">10. Crediti sugli invii →</a></span></div></main></body></html>

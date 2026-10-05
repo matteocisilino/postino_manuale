@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>10. Crediti sugli invii — Manuale di Postino</title>
+<style>
+:root { --ink:#1f2933; --muted:#6b7480; --line:#e4e7eb; --accent:#c79b00; --code:#f5f7f9; }
+* { box-sizing: border-box; }
+body { margin:0; font:16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; color:var(--ink); display:flex; min-height:100vh; }
+nav.side { width:280px; flex-shrink:0; border-right:1px solid var(--line); padding:24px 18px; position:sticky; top:0; height:100vh; overflow-y:auto; background:#fafbfc; }
+nav.side h1 { font-size:18px; margin:0 0 16px; }
+nav.side ol { list-style:none; padding:0; margin:0; }
+nav.side li { margin:4px 0; }
+nav.side a { color:var(--ink); text-decoration:none; display:block; padding:6px 8px; border-radius:6px; }
+nav.side a:hover { background:#eef1f4; }
+nav.side a.current { background:#fff4cc; font-weight:600; }
+nav.side .sub { margin-left:14px; font-size:14px; }
+nav.side .sub a { padding:3px 8px; color:var(--muted); }
+main { flex:1; max-width:860px; padding:36px 48px 80px; }
+h1 { font-size:30px; margin-top:0; }
+h2 { font-size:22px; margin-top:40px; border-bottom:1px solid var(--line); padding-bottom:6px; }
+h3 { font-size:18px; margin-top:28px; }
+h4 { font-size:16px; }
+code { background:var(--code); padding:1px 5px; border-radius:4px; font:14px ui-monospace, Menlo, Consolas, monospace; }
+pre { background:var(--code); padding:14px 16px; border-radius:8px; overflow-x:auto; border:1px solid var(--line); }
+pre code { background:none; padding:0; font-size:13px; }
+table { border-collapse:collapse; width:100%; margin:14px 0; font-size:15px; }
+th, td { border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top; }
+th { background:#fafbfc; }
+blockquote { margin:14px 0; padding:8px 14px; border-left:4px solid var(--accent); background:#fffaea; color:var(--ink); }
+.toc { background:#fafbfc; border:1px solid var(--line); border-radius:8px; padding:12px 18px; margin:20px 0 28px; }
+.toc ol { margin:6px 0; padding-left:20px; }
+.toc li { margin:3px 0; }
+.pager { display:flex; justify-content:space-between; margin-top:48px; border-top:1px solid var(--line); padding-top:18px; }
+.pager a { color:var(--ink); text-decoration:none; font-weight:600; }
+@media (max-width: 800px) { body { display:block; } nav.side { width:auto; height:auto; position:static; } main { padding:24px 18px; } }
+</style></head>
+<body><nav class="side"><h1>Manuale di Postino</h1><ol><li><a href="index.html">Indice generale</a></li><li><a href="01-accesso-e-navigazione.html">1. Primo accesso e navigazione</a></li><li><a href="02-namespace-ruoli-utenti.html">2. Namespace, ruoli e utenti</a></li><li><a href="03-liste-e-iscritti.html">3. Liste e iscritti</a></li><li><a href="04-segmenti.html">4. Segmenti</a></li><li><a href="05-campagne.html">5. Campagne</a></li><li><a href="06-galleria-e-spazio.html">6. Galleria media e spazio</a></li><li><a href="07-statistiche.html">7. Statistiche</a></li><li><a href="08-cestino.html">8. Cestino e ripristino</a></li><li><a href="09-api.html">9. API per sviluppatori</a></li><li><a href="10-crediti-invii.html" class="current">10. Crediti sugli invii</a></li></ol></nav><main><div class="toc"><strong>In questa pagina</strong><ol><li><a href="#lunita-il-credito">L'unità: il credito</a></li><li><a href="#cosa-si-conta">Cosa si conta</a></li><li><a href="#il-livello-di-invio-in-parallelo">Il livello di invio in parallelo</a></li><li><a href="#sconti">Sconti</a></li><li><a href="#formula">Formula</a></li><li><a href="#esempi">Esempi</a></li><li><a href="#quando-si-addebita">Quando si addebita</a></li><li><a href="#le-prove-non-si-addebitano">Le prove non si addebitano</a></li><li><a href="#triggered">Triggered</a></li><li><a href="#saldo-esaurito">Saldo esaurito</a></li><li><a href="#dove-vedere-il-consumo">Dove vedere il consumo</a></li><li><a href="#domande-frequenti">Domande frequenti</a></li></ol></div><h1 id="10-crediti-sugli-invii">10. Crediti sugli invii</h1>
+<blockquote>
+<p><strong>Stato:</strong> le regole di questo capitolo sono quelle definite per il listino. Il
+conteggio e l'addebito dei crediti sono in fase di implementazione: finché non sono
+attivi, gli invii non consumano ancora il saldo.</p>
+</blockquote>
+<h2 id="lunita-il-credito">L'unità: il credito</h2>
+<p>Tutto il consumo di Postino si misura in <strong>crediti</strong>:</p>
+<ul>
+<li><strong>1 € = 1.000 crediti</strong>, quindi <strong>1 credito = 0,001 €</strong>, cioè 0,1 centesimi.</li>
+<li><strong>1 email = 1 credito</strong> al prezzo base, cioè 0,1 centesimi.</li>
+<li><strong>1 GB di galleria al mese = 1.000 crediti</strong>, cioè 1 €.</li>
+<li><strong>Ricarica minima: 10 € = 10.000 crediti.</strong></li>
+</ul>
+<p>Il listino completo, con i prezzi aggiornati, è visibile al super admin, che può
+modificarlo in qualsiasi momento.</p>
+<h2 id="cosa-si-conta">Cosa si conta</h2>
+<p>Si conta un credito per <strong>ogni destinatario effettivo</strong> di un invio. Un destinatario
+è effettivo quando:</p>
+<ul>
+<li>è iscritto e attivo nelle liste della campagna (non in attesa di conferma e non
+  disiscritto);</li>
+<li>non è in una lista di soppressione (bounce definitivo, reclamo, indirizzo non
+  valido);</li>
+<li>se la verifica email è attiva, il suo esito è <code>valid</code>;</li>
+<li>se la campagna usa un segmento, rientra nelle sue regole.</li>
+</ul>
+<p>Ogni indirizzo conta <strong>una sola volta</strong>, anche se compare in più liste o segmenti
+selezionati.</p>
+<p>Non contano gli indirizzi esclusi: chi è disiscritto o non valido non consuma
+crediti.</p>
+<h2 id="il-livello-di-invio-in-parallelo">Il livello di invio in parallelo</h2>
+<p>Il numero di invii simultanei ha un costo: più invii in parallelo significano più
+risorse e una consegna più rapida. Il livello scelto moltiplica il costo di ogni
+email.</p>
+<table>
+<thead>
+<tr>
+<th>Livello</th>
+<th>Invii in parallelo</th>
+<th>Moltiplicatore</th>
+<th>Costo per email</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Base</td>
+<td>1</td>
+<td>1×</td>
+<td>1 credito</td>
+</tr>
+<tr>
+<td>Standard</td>
+<td>2</td>
+<td>1,5×</td>
+<td>1,5 crediti</td>
+</tr>
+<tr>
+<td>Veloce</td>
+<td>4</td>
+<td>2×</td>
+<td>2 crediti</td>
+</tr>
+<tr>
+<td>Massimo</td>
+<td>8</td>
+<td>3×</td>
+<td>3 crediti</td>
+</tr>
+</tbody>
+</table>
+<p>Il costo finale è sempre un numero intero di crediti: se il calcolo dà una frazione,
+si arrotonda <strong>per eccesso</strong>.</p>
+<h2 id="sconti">Sconti</h2>
+<p>Il super admin può applicare uno <strong>sconto per namespace</strong>, che si esprime come
+moltiplicatore sul costo in crediti: per esempio <code>0,8</code> equivale a uno sconto del
+20%. Lo sconto si applica dopo il moltiplicatore del livello.</p>
+<h2 id="formula">Formula</h2>
+<pre><code>crediti = ceil( destinatari effettivi × costo base × moltiplicatore livello × sconto )
+</code></pre>
+<h2 id="esempi">Esempi</h2>
+<p>Con un costo base di 1 credito per email:</p>
+<table>
+<thead>
+<tr>
+<th>Destinatari</th>
+<th>Livello</th>
+<th>Sconto</th>
+<th>Crediti addebitati</th>
+<th>Costo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5.000</td>
+<td>Base (1×)</td>
+<td>nessuno</td>
+<td>5.000</td>
+<td>5 €</td>
+</tr>
+<tr>
+<td>5.000</td>
+<td>Standard (1,5×)</td>
+<td>nessuno</td>
+<td>7.500</td>
+<td>7,50 €</td>
+</tr>
+<tr>
+<td>5.000</td>
+<td>Standard (1,5×)</td>
+<td>0,8</td>
+<td>6.000</td>
+<td>6 €</td>
+</tr>
+<tr>
+<td>1.200</td>
+<td>Base (1×)</td>
+<td>0,9</td>
+<td>1.080</td>
+<td>1,08 €</td>
+</tr>
+</tbody>
+</table>
+<p>Con la ricarica minima da 10 € (10.000 crediti) puoi inviare, al livello base, circa
+9.000 email dopo aver pagato 1.000 crediti di galleria per il primo mese.</p>
+<h2 id="quando-si-addebita">Quando si addebita</h2>
+<p>I crediti si addebitano al momento in cui la campagna viene <strong>preparata per
+l'invio</strong>, cioè quando l'avvio mette in coda i messaggi. Il conteggio è fatto sui
+destinatari di quel momento: un iscritto aggiunto dopo l'avvio non entra nel
+conteggio di quell'invio.</p>
+<h2 id="le-prove-non-si-addebitano">Le prove non si addebitano</h2>
+<p>Una prova inviata al proprio indirizzo non consuma crediti.</p>
+<h2 id="triggered">Triggered</h2>
+<p>Un'email automatica inviata tramite l'API (campagne triggered) costa <strong>1 credito</strong>
+per invio, al livello base. Nessun livello di parallelismo si applica, perché l'invio
+è singolo.</p>
+<h2 id="saldo-esaurito">Saldo esaurito</h2>
+<p>Quando il saldo non basta per l'invio successivo:</p>
+<ul>
+<li>gli invii sono <strong>sospesi</strong> e la campagna resta in attesa di crediti;</li>
+<li>i caricamenti nella galleria media sono bloccati;</li>
+<li>le <strong>iscrizioni continuano</strong> a funzionare, e il tracciamento resta attivo.</li>
+</ul>
+<p>Il saldo si ricarica dalla pagina dei crediti. Quando torna disponibile, la campagna
+sospesa riprende dai destinatari non ancora serviti.</p>
+<h2 id="dove-vedere-il-consumo">Dove vedere il consumo</h2>
+<p>Il registro dei consumi del namespace (crediti addebitati per invio, con data e
+campagna) sarà disponibile nella pagina dei crediti. Fino ad allora, il conteggio
+dei destinatari si può verificare nella scheda della campagna, prima dell'avvio.</p>
+<h2 id="domande-frequenti">Domande frequenti</h2>
+<p><strong>Un invio fallito costa comunque?</strong> Il criterio definitivo per i messaggi non
+consegnati è in fase di definizione: questo capitolo sarà aggiornato quando sarà
+fissato.</p>
+<p><strong>Posso cambiare il livello dopo l'avvio?</strong> No: il livello si sceglie prima di
+avviare la campagna.</p>
+<p><strong>Il moltiplicatore è applicato a ogni email?</strong> Sì, a ogni destinatario effettivo,
+non solo alla campagna nel suo insieme.</p><div class="pager"><span><a href="09-api.html">← 9. API per sviluppatori</a></span><span></span></div></main></body></html>

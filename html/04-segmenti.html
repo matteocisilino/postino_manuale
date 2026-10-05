@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>4. Segmenti — Manuale di Postino</title>
+<style>
+:root { --ink:#1f2933; --muted:#6b7480; --line:#e4e7eb; --accent:#c79b00; --code:#f5f7f9; }
+* { box-sizing: border-box; }
+body { margin:0; font:16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; color:var(--ink); display:flex; min-height:100vh; }
+nav.side { width:280px; flex-shrink:0; border-right:1px solid var(--line); padding:24px 18px; position:sticky; top:0; height:100vh; overflow-y:auto; background:#fafbfc; }
+nav.side h1 { font-size:18px; margin:0 0 16px; }
+nav.side ol { list-style:none; padding:0; margin:0; }
+nav.side li { margin:4px 0; }
+nav.side a { color:var(--ink); text-decoration:none; display:block; padding:6px 8px; border-radius:6px; }
+nav.side a:hover { background:#eef1f4; }
+nav.side a.current { background:#fff4cc; font-weight:600; }
+nav.side .sub { margin-left:14px; font-size:14px; }
+nav.side .sub a { padding:3px 8px; color:var(--muted); }
+main { flex:1; max-width:860px; padding:36px 48px 80px; }
+h1 { font-size:30px; margin-top:0; }
+h2 { font-size:22px; margin-top:40px; border-bottom:1px solid var(--line); padding-bottom:6px; }
+h3 { font-size:18px; margin-top:28px; }
+h4 { font-size:16px; }
+code { background:var(--code); padding:1px 5px; border-radius:4px; font:14px ui-monospace, Menlo, Consolas, monospace; }
+pre { background:var(--code); padding:14px 16px; border-radius:8px; overflow-x:auto; border:1px solid var(--line); }
+pre code { background:none; padding:0; font-size:13px; }
+table { border-collapse:collapse; width:100%; margin:14px 0; font-size:15px; }
+th, td { border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top; }
+th { background:#fafbfc; }
+blockquote { margin:14px 0; padding:8px 14px; border-left:4px solid var(--accent); background:#fffaea; color:var(--ink); }
+.toc { background:#fafbfc; border:1px solid var(--line); border-radius:8px; padding:12px 18px; margin:20px 0 28px; }
+.toc ol { margin:6px 0; padding-left:20px; }
+.toc li { margin:3px 0; }
+.pager { display:flex; justify-content:space-between; margin-top:48px; border-top:1px solid var(--line); padding-top:18px; }
+.pager a { color:var(--ink); text-decoration:none; font-weight:600; }
+@media (max-width: 800px) { body { display:block; } nav.side { width:auto; height:auto; position:static; } main { padding:24px 18px; } }
+</style></head>
+<body><nav class="side"><h1>Manuale di Postino</h1><ol><li><a href="index.html">Indice generale</a></li><li><a href="01-accesso-e-navigazione.html">1. Primo accesso e navigazione</a></li><li><a href="02-namespace-ruoli-utenti.html">2. Namespace, ruoli e utenti</a></li><li><a href="03-liste-e-iscritti.html">3. Liste e iscritti</a></li><li><a href="04-segmenti.html" class="current">4. Segmenti</a></li><li><a href="05-campagne.html">5. Campagne</a></li><li><a href="06-galleria-e-spazio.html">6. Galleria media e spazio</a></li><li><a href="07-statistiche.html">7. Statistiche</a></li><li><a href="08-cestino.html">8. Cestino e ripristino</a></li><li><a href="09-api.html">9. API per sviluppatori</a></li><li><a href="10-crediti-invii.html">10. Crediti sugli invii</a></li></ol></nav><main><div class="toc"><strong>In questa pagina</strong><ol><li><a href="#cose-un-segmento">Cos'è un segmento</a></li><li><a href="#creare-un-segmento">Creare un segmento</a></li><li><a href="#usare-un-segmento-in-una-campagna">Usare un segmento in una campagna</a></li><li><a href="#modificare-un-segmento">Modificare un segmento</a></li></ol></div><h1 id="4-segmenti">4. Segmenti</h1>
+<h2 id="cose-un-segmento">Cos'è un segmento</h2>
+<p>Un segmento è un filtro salvato sugli iscritti: sceglie chi rientra in base a campi
+e stato. Non è una lista separata: gli iscritti restano dove sono, il segmento ne
+seleziona un sottoinsieme.</p>
+<p>Un segmento appartiene al namespace e vale su <strong>tutte le liste</strong> del namespace. Puoi
+quindi definirlo una volta e usarlo in più campagne.</p>
+<h2 id="creare-un-segmento">Creare un segmento</h2>
+<p>Dalla pagina della lista, nel pannello <strong>Segmenti</strong>, oppure dal selettore dei
+destinatari di una campagna:</p>
+<ol>
+<li>Clicca <strong>+ Nuovo segmento</strong> e dai un nome.</li>
+<li>Aggiungi una o più regole, nella forma <strong>campo → confronto → valore</strong>. Per
+   esempio: <code>FIRST_NAME</code> <strong>è uguale a</strong> <code>Marco</code>, oppure <code>CITTÀ</code> <strong>è compilato</strong>.
+   Confronti disponibili: è uguale a, è diverso da, contiene, è maggiore di, è
+   minore di, è compilato, è vuoto.</li>
+<li>Salva. Tutte le regole devono valere insieme (E logico).</li>
+</ol>
+<p>Ogni segmento considera solo gli <strong>iscritti attivi</strong>: chi si è disiscritto o è in
+attesa di conferma non rientra.</p>
+<h2 id="usare-un-segmento-in-una-campagna">Usare un segmento in una campagna</h2>
+<p>Nel box impostazioni della campagna, il campo <strong>Destinatari</strong> accetta liste e
+segmenti. Scrivi il nome: compaiono in tempo reale le liste e i segmenti che
+corrispondono, ciascuno con il suo tipo (<strong>Lista</strong> o <strong>Segmento</strong>). Se non esiste
+ancora il segmento che ti serve, scegli <strong>+ Crea segmento</strong> e definilo sul posto.</p>
+<p>Un iscritto che rientra in più destinatari riceve la campagna <strong>una sola volta</strong>.</p>
+<h2 id="modificare-un-segmento">Modificare un segmento</h2>
+<p>Per ora un segmento si crea ma non si modifica dalla console: per cambiarne le
+regole, creane uno nuovo. Le campagne già inviate non cambiano.</p><div class="pager"><span><a href="03-liste-e-iscritti.html">← 3. Liste e iscritti</a></span><span><a href="05-campagne.html">5. Campagne →</a></span></div></main></body></html>
