@@ -15,7 +15,7 @@ per le funzioni riservate al super admin c'è il manuale dedicato.
 5. [Campagne](05-campagne.md) *(in preparazione)*
 6. [Galleria media e spazio](06-galleria-e-spazio.md) *(in preparazione)*
 7. [Statistiche](07-statistiche.md)
-8. [Cestino e ripristino](08-cestino.md) *(in preparazione)*
+8. [Cestino e ripristino](08-cestino.md)
 9. [API per sviluppatori (PHP, Ruby, Python)](09-api.md)
 10. [Crediti sugli invii](10-crediti-invii.md)
 

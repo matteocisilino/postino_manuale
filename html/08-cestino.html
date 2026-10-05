@@ -34,5 +34,68 @@ blockquote { margin:14px 0; padding:8px 14px; border-left:4px solid var(--accent
 .pager a { color:var(--ink); text-decoration:none; font-weight:600; }
 @media (max-width: 800px) { body { display:block; } nav.side { width:auto; height:auto; position:static; } main { padding:24px 18px; } }
 </style></head>
-<body><nav class="side"><h1>Manuale di Postino</h1><ol><li><a href="index.html">Indice generale</a></li><li><a href="01-accesso-e-navigazione.html">1. Primo accesso e navigazione</a></li><li><a href="02-namespace-ruoli-utenti.html">2. Namespace, ruoli e utenti</a></li><li><a href="03-liste-e-iscritti.html">3. Liste e iscritti</a></li><li><a href="04-segmenti.html">4. Segmenti</a></li><li><a href="05-campagne.html">5. Campagne</a></li><li><a href="06-galleria-e-spazio.html">6. Galleria media e spazio</a></li><li><a href="07-statistiche.html">7. Statistiche</a></li><li><a href="08-cestino.html" class="current">8. Cestino e ripristino</a></li><li><a href="09-api.html">9. API per sviluppatori</a></li><li><a href="10-crediti-invii.html">10. Crediti sugli invii</a></li></ol></nav><main><h1 id="cestino-e-ripristino">Cestino e ripristino</h1>
-<p><em>Capitolo in preparazione.</em> Verrà completato quando le funzioni saranno definitive.</p><div class="pager"><span><a href="07-statistiche.html">← 7. Statistiche</a></span><span><a href="09-api.html">9. API per sviluppatori →</a></span></div></main></body></html>
+<body><nav class="side"><h1>Manuale di Postino</h1><ol><li><a href="index.html">Indice generale</a></li><li><a href="01-accesso-e-navigazione.html">1. Primo accesso e navigazione</a></li><li><a href="02-namespace-ruoli-utenti.html">2. Namespace, ruoli e utenti</a></li><li><a href="03-liste-e-iscritti.html">3. Liste e iscritti</a></li><li><a href="04-segmenti.html">4. Segmenti</a></li><li><a href="05-campagne.html">5. Campagne</a></li><li><a href="06-galleria-e-spazio.html">6. Galleria media e spazio</a></li><li><a href="07-statistiche.html">7. Statistiche</a></li><li><a href="08-cestino.html" class="current">8. Cestino e ripristino</a></li><li><a href="09-api.html">9. API per sviluppatori</a></li><li><a href="10-crediti-invii.html">10. Crediti sugli invii</a></li></ol></nav><main><div class="toc"><strong>In questa pagina</strong><ol><li><a href="#cosa-finisce-nel-cestino">Cosa finisce nel cestino</a></li><li><a href="#chi-puo-eliminare">Chi può eliminare</a></li><li><a href="#aprire-il-cestino">Aprire il cestino</a></li><li><a href="#ripristinare-un-elemento">Ripristinare un elemento</a></li><li><a href="#scadenza-dopo-30-giorni">Scadenza dopo 30 giorni</a></li><li><a href="#svuotare-il-cestino-subito">Svuotare il cestino subito</a></li><li><a href="#domande-frequenti">Domande frequenti</a></li></ol></div><h1 id="cestino-e-ripristino">Cestino e ripristino</h1>
+<p>Quando elimini un elemento di Postino, non viene cancellato subito: finisce nel
+<strong>Cestino</strong>. Lì resta per 30 giorni, e puoi riportarlo indietro con un clic. Dopo
+30 giorni viene cancellato in modo definitivo.</p>
+<h2 id="cosa-finisce-nel-cestino">Cosa finisce nel cestino</h2>
+<ul>
+<li><strong>Namespace</strong></li>
+<li><strong>Utenti</strong></li>
+<li><strong>Liste</strong></li>
+<li><strong>Mittenti</strong> (configurazioni di invio)</li>
+<li><strong>Template</strong></li>
+<li><strong>Webhook</strong></li>
+<li><strong>Campagne</strong>, con le loro statistiche</li>
+</ul>
+<p>Anche i <strong>singoli indirizzi</strong> (iscritti) finiscono nel cestino: eliminando un iscritto dalla
+sua lista, lo ritrovi nel gruppo <strong>Iscritti</strong> e puoi riportarlo dentro la lista.</p>
+<h2 id="chi-puo-eliminare">Chi può eliminare</h2>
+<p>Chi elimina un elemento lo sposta nel cestino, a seconda del proprio ruolo:</p>
+<ul>
+<li><strong>Redattore</strong>: può eliminare iscritti, liste, campagne e altri contenuti del namespace in
+  cui lavora.</li>
+</ul>
+<p>Una campagna si può eliminare quando non è in invio né in pausa: se è in corso, annullala
+prima.
+- <strong>Amministratore del namespace</strong>: può eliminare il namespace. Non può eliminare il
+  proprio account: per quello serve un altro amministratore o il super admin.
+- <strong>Super admin</strong>: può eliminare qualunque elemento, in tutti i namespace.</p>
+<h2 id="aprire-il-cestino">Aprire il cestino</h2>
+<p>Dalla barra laterale, sezione <strong>Sistema</strong>, voce <strong>Cestino</strong>. La pagina raggruppa gli
+elementi per tipo: Namespace, Utenti, Liste, Mittenti, Template, Webhook. Per ogni
+elemento vedi il nome e la data in cui è stato eliminato.</p>
+<p>Se non vedi la voce, il tuo ruolo non ha elementi da recuperare.</p>
+<h2 id="ripristinare-un-elemento">Ripristinare un elemento</h2>
+<ol>
+<li>Apri il <strong>Cestino</strong>.</li>
+<li>Trova l'elemento nel suo gruppo.</li>
+<li>Premi <strong>Ripristina</strong>.</li>
+</ol>
+<p>L'elemento torna esattamente come era, con i suoi collegamenti: le liste tornano con
+i propri iscritti, i mittenti con le proprie impostazioni.</p>
+<p>Possono ripristinare un elemento tutti gli utenti collegati ad esso e che hanno
+accesso al suo namespace, nel ruolo che hanno: un redattore riporta indietro ciò che
+può gestire, un amministratore ciò che può amministrare, il super admin tutto.</p>
+<p>Eccezione: il ripristino di un utente è riservato al super admin.</p>
+<h2 id="scadenza-dopo-30-giorni">Scadenza dopo 30 giorni</h2>
+<p>Ogni notte, alle 03:15, Postino cancella in modo definitivo gli elementi nel cestino
+da più di 30 giorni. Una volta cancellati non si recuperano.</p>
+<p>I namespace figli vengono cancellati prima dei padri, perché un padre non si può
+rimuovere finché ha figli.</p>
+<h2 id="svuotare-il-cestino-subito">Svuotare il cestino subito</h2>
+<p>Il super admin può svuotare il cestino prima della scadenza con <strong>Svuota cestino ora</strong>.
+Il pulsante cancella <strong>tutto</strong> il contenuto del cestino, in tutti i namespace, anche
+gli elementi eliminati da pochi minuti. Il sistema chiede conferma: l'operazione non
+si annulla.</p>
+<p>Usalo solo se sei certo di non voler recuperare nulla. Altrimenti lascia che il
+cestino si svuoti da solo dopo 30 giorni.</p>
+<h2 id="domande-frequenti">Domande frequenti</h2>
+<p><strong>Un elemento nel cestino conta ancora nello spazio?</strong>
+Sì, finché non viene cancellato in modo definitivo: anche il cestino occupa spazio.</p>
+<p><strong>Posso ripristinare un namespace i cui figli sono stati cancellati?</strong>
+Il namespace torna, ma i figli cancellati definitivamente non tornano. Se li vuoi
+indietro, ricreali.</p>
+<p><strong>Ho eliminato un elemento per errore e sono passati più di 30 giorni: posso recuperarlo?</strong>
+No. Dopo la cancellazione definitiva non è più recuperabile. Per evitarlo, controlla il
+cestino entro 30 giorni dall'eliminazione.</p><div class="pager"><span><a href="07-statistiche.html">← 7. Statistiche</a></span><span><a href="09-api.html">9. API per sviluppatori →</a></span></div></main></body></html>

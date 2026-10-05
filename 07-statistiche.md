@@ -85,3 +85,9 @@ Se la sua apertura è stata classificata come bot, non entra nei numeri principa
 
 **Posso vedere le statistiche di una campagna mentre è in invio?**
 Sì. I numeri crescono man mano che i messaggi partono e gli iscritti rispondono; ricarica la pagina per l'ultimo dato. Le percentuali sono definitive solo a invio concluso.
+
+## Eliminare una campagna
+
+Le statistiche seguono la campagna. Quando sposti una campagna nel cestino, con lei
+finiscono nel cestino anche le sue statistiche. Ripristinandola, tornano insieme. Dopo
+30 giorni nel cestino la campagna e le statistiche vengono cancellate in modo definitivo.
