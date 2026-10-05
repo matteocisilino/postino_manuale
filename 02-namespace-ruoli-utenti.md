@@ -38,6 +38,10 @@ Dalla pagina **Utenti e accessi** (riservata agli amministratori):
    all'utente via email: la mail contiene la password in chiaro. Se non la invii e
    l'hai generata, la vedi una sola volta dopo il salvataggio: copiala e comunicala
    subito. Dopo la reimpostazione l'utente deve cambiare la password al primo accesso.
+   Con la reimpostazione:
+   - tutte le chiavi API dell'utente vengono revocate: vanno create di nuovo;
+   - le sessioni aperte dell'utente vengono chiuse, anche su altri dispositivi.
+   Se la revoca delle chiavi non riesce, la password non cambia e compare un messaggio di errore.
 
 Puoi modificare o reimpostare la password solo degli utenti che hanno ruoli soltanto
 nei tuoi namespace, figli compresi. Per un utente che ha ruoli anche in namespace
