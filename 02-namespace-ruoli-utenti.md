@@ -31,6 +31,17 @@ Dalla pagina **Utenti e accessi** (riservata agli amministratori):
    dovrà cambiare al primo accesso.
 2. **Assegna un ruolo a un utente esistente:** scegli l'utente, il ruolo e conferma.
 3. **Cambia il ruolo:** dal menu di ogni assegnazione.
+4. **Modifica un account:** dall'icona a matita nella lista "Tutti gli utenti" puoi
+   cambiare nome ed email. Il flag di super admin lo cambia solo il super admin.
+5. **Reimposta la password:** nella stessa finestra puoi generare una password
+   casuale oppure sceglierne una tu, di almeno 12 caratteri. Puoi anche inviarla
+   all'utente via email: la mail contiene la password in chiaro. Se non la invii e
+   l'hai generata, la vedi una sola volta dopo il salvataggio: copiala e comunicala
+   subito. Dopo la reimpostazione l'utente deve cambiare la password al primo accesso.
+
+Puoi modificare o reimpostare la password solo degli utenti che hanno ruoli soltanto
+nei tuoi namespace, figli compresi. Per un utente che ha ruoli anche in namespace
+gestiti da altri amministratori, l'operazione non è consentita.
 
 Il riquadro in fondo alla pagina riassume i tre livelli, con la descrizione di ciò
 che permettono.

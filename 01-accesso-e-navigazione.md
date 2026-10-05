@@ -7,6 +7,11 @@ c'è registrazione pubblica: l'account lo crea un amministratore.
 
 Al primo accesso puoi cambiare la password da **Impostazioni → Account**.
 
+Se il tuo amministratore ti ha creato l'account o ha reimpostato la tua password,
+devi cambiarla prima di usare il resto della console: finché non lo fai, si apre
+solo la pagina **Impostazioni → Account**. Scegli una password nuova e diversa da
+quella ricevuta. Il cambio ti porta di nuovo alla console.
+
 ## La barra laterale
 
 La barra laterale raggruppa le sezioni in quattro gruppi:
