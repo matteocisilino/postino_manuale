@@ -12,12 +12,13 @@ per le funzioni riservate al super admin c'è il manuale dedicato.
 2. [Namespace, ruoli e utenti](02-namespace-ruoli-utenti.md)
 3. [Liste e iscritti](03-liste-e-iscritti.md)
 4. [Segmenti](04-segmenti.md)
-5. [Campagne](05-campagne.md) *(in preparazione)*
-6. [Galleria media e spazio](06-galleria-e-spazio.md) *(in preparazione)*
+5. [Campagne](05-campagne.md)
+6. [Galleria media e spazio](06-galleria-e-spazio.md)
 7. [Statistiche](07-statistiche.md)
 8. [Cestino e ripristino](08-cestino.md)
 9. [API per sviluppatori (PHP, Ruby, Python)](09-api.md)
 10. [Crediti sugli invii](10-crediti-invii.md)
+11. [Mittenti e invio](11-mittenti-e-invio.md)
 
 ## Convenzioni
 

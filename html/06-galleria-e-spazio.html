@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="it"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Galleria media e spazio — Manuale di Postino</title>
+<title>6. Galleria media e spazio — Manuale di Postino</title>
 <style>
 :root { --ink:#1f2933; --muted:#6b7480; --line:#e4e7eb; --accent:#c79b00; --code:#f5f7f9; }
 * { box-sizing: border-box; }
@@ -34,5 +34,49 @@ blockquote { margin:14px 0; padding:8px 14px; border-left:4px solid var(--accent
 .pager a { color:var(--ink); text-decoration:none; font-weight:600; }
 @media (max-width: 800px) { body { display:block; } nav.side { width:auto; height:auto; position:static; } main { padding:24px 18px; } }
 </style></head>
-<body><nav class="side"><h1>Manuale di Postino</h1><ol><li><a href="index.html">Indice generale</a></li><li><a href="01-accesso-e-navigazione.html">1. Primo accesso e navigazione</a></li><li><a href="02-namespace-ruoli-utenti.html">2. Namespace, ruoli e utenti</a></li><li><a href="03-liste-e-iscritti.html">3. Liste e iscritti</a></li><li><a href="04-segmenti.html">4. Segmenti</a></li><li><a href="05-campagne.html">5. Campagne</a></li><li><a href="06-galleria-e-spazio.html" class="current">6. Galleria media e spazio</a></li><li><a href="07-statistiche.html">7. Statistiche</a></li><li><a href="08-cestino.html">8. Cestino e ripristino</a></li><li><a href="09-api.html">9. API per sviluppatori</a></li><li><a href="10-crediti-invii.html">10. Crediti sugli invii</a></li></ol></nav><main><h1 id="galleria-media-e-spazio">Galleria media e spazio</h1>
-<p><em>Capitolo in preparazione.</em> Verrà completato quando le funzioni saranno definitive.</p><div class="pager"><span><a href="05-campagne.html">← 5. Campagne</a></span><span><a href="07-statistiche.html">7. Statistiche →</a></span></div></main></body></html>
+<body><nav class="side"><h1>Manuale di Postino</h1><ol><li><a href="index.html">Indice generale</a></li><li><a href="01-accesso-e-navigazione.html">1. Primo accesso e navigazione</a></li><li><a href="02-namespace-ruoli-utenti.html">2. Namespace, ruoli e utenti</a></li><li><a href="03-liste-e-iscritti.html">3. Liste e iscritti</a></li><li><a href="04-segmenti.html">4. Segmenti</a></li><li><a href="05-campagne.html">5. Campagne</a></li><li><a href="06-galleria-e-spazio.html" class="current">6. Galleria media e spazio</a></li><li><a href="07-statistiche.html">7. Statistiche</a></li><li><a href="08-cestino.html">8. Cestino e ripristino</a></li><li><a href="09-api.html">9. API per sviluppatori</a></li><li><a href="10-crediti-invii.html">10. Crediti sugli invii</a></li><li><a href="11-mittenti-e-invio.html">11. Mittenti e invio</a></li></ol></nav><main><div class="toc"><strong>In questa pagina</strong><ol><li><a href="#la-galleria">La galleria</a></li><li><a href="#lo-spazio">Lo spazio</a></li></ol></div><h1 id="6-galleria-media-e-spazio">6. Galleria media e spazio</h1>
+<h2 id="la-galleria">La galleria</h2>
+<p>Le immagini usate nelle campagne e nei template vivono nella <strong>galleria del
+namespace</strong>: appartengono al namespace, non a chi le ha caricate, così
+restano disponibili a chiunque lavori su quel namespace. La trovi aprendo
+<strong>Galleria media</strong> dall'editor visuale di una campagna o di un template.</p>
+<ul>
+<li><strong>Caricare un'immagine:</strong> scegli il file dalla galleria. Formati accettati:
+  JPG, PNG, GIF, WebP; dimensione massima 5 MB.</li>
+<li><strong>Nessun duplicato:</strong> se carichi un'immagine già presente nella galleria del
+  namespace (stesso contenuto, anche con nome file diverso), Postino
+  riconosce il duplicato e riusa quella già caricata, senza occupare altro
+  spazio.</li>
+<li><strong>Selezionare un'immagine:</strong> nell'editor visuale, seleziona prima una
+  colonna del canvas, poi apri la galleria e scegli l'immagine da inserire.</li>
+</ul>
+<h2 id="lo-spazio">Lo spazio</h2>
+<p>Lo spazio della galleria è assegnato <strong>a namespace</strong>, non per singolo
+utente. Lo trovi in <strong>Spazio media</strong>.</p>
+<h3 id="come-funziona-lassegnazione">Come funziona l'assegnazione</h3>
+<p>Lo spazio si distribuisce "a bottiglia", dall'alto verso il basso:</p>
+<ul>
+<li>Il super admin assegna la quota ai namespace radice.</li>
+<li>Chi amministra un namespace può a sua volta assegnare parte del proprio
+  spazio <strong>libero</strong> ai propri sotto-namespace.</li>
+<li>Un namespace non può mai ricevere più spazio di quanto il suo genitore ha
+  ancora libero, e non si può scendere sotto quanto è già stato ripartito ai
+  figli.</li>
+</ul>
+<p>Per ogni namespace la pagina mostra: quota assegnata, spazio usato dalla
+galleria, spazio già ripartito ai figli, spazio libero.</p>
+<h3 id="assegnare-lo-spazio">Assegnare lo spazio</h3>
+<p>Apri <strong>Gestisci</strong> sul namespace:</p>
+<ul>
+<li><strong>Quota del namespace:</strong> la imposta chi amministra il namespace genitore
+  (o il super admin, per i namespace radice). Si assegna in <strong>multipli di
+  1 GB</strong> (minimo 1 GB; 0 revoca tutto lo spazio).</li>
+<li><strong>Soglia di avviso:</strong> percentuale della quota oltre la quale compare un
+  avviso di spazio quasi esaurito (default 80%, personalizzabile).</li>
+<li><strong>Assegna ai sotto-namespace:</strong> se il namespace ha dei figli, puoi
+  ripartire tra loro lo spazio libero rimasto, con lo stesso meccanismo.</li>
+</ul>
+<p>Quando lo spazio usato supera la quota (stato "esaurito"), non è più
+possibile caricare nuove immagini nella galleria di quel namespace finché
+non viene liberato spazio (eliminando immagini non più usate) o la quota
+non viene aumentata.</p><div class="pager"><span><a href="05-campagne.html">← 5. Campagne</a></span><span><a href="07-statistiche.html">7. Statistiche →</a></span></div></main></body></html>

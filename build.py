@@ -56,6 +56,7 @@ CHAPTERS = [
     ("08-cestino", "8. Cestino e ripristino"),
     ("09-api", "9. API per sviluppatori"),
     ("10-crediti-invii", "10. Crediti sugli invii"),
+    ("11-mittenti-e-invio", "11. Mittenti e invio"),
 ]
 
 

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="it"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Campagne — Manuale di Postino</title>
+<title>5. Campagne — Manuale di Postino</title>
 <style>
 :root { --ink:#1f2933; --muted:#6b7480; --line:#e4e7eb; --accent:#c79b00; --code:#f5f7f9; }
 * { box-sizing: border-box; }
@@ -34,5 +34,77 @@ blockquote { margin:14px 0; padding:8px 14px; border-left:4px solid var(--accent
 .pager a { color:var(--ink); text-decoration:none; font-weight:600; }
 @media (max-width: 800px) { body { display:block; } nav.side { width:auto; height:auto; position:static; } main { padding:24px 18px; } }
 </style></head>
-<body><nav class="side"><h1>Manuale di Postino</h1><ol><li><a href="index.html">Indice generale</a></li><li><a href="01-accesso-e-navigazione.html">1. Primo accesso e navigazione</a></li><li><a href="02-namespace-ruoli-utenti.html">2. Namespace, ruoli e utenti</a></li><li><a href="03-liste-e-iscritti.html">3. Liste e iscritti</a></li><li><a href="04-segmenti.html">4. Segmenti</a></li><li><a href="05-campagne.html" class="current">5. Campagne</a></li><li><a href="06-galleria-e-spazio.html">6. Galleria media e spazio</a></li><li><a href="07-statistiche.html">7. Statistiche</a></li><li><a href="08-cestino.html">8. Cestino e ripristino</a></li><li><a href="09-api.html">9. API per sviluppatori</a></li><li><a href="10-crediti-invii.html">10. Crediti sugli invii</a></li></ol></nav><main><h1 id="campagne">Campagne</h1>
-<p><em>Capitolo in preparazione.</em> Verrà completato quando le funzioni saranno definitive.</p><div class="pager"><span><a href="04-segmenti.html">← 4. Segmenti</a></span><span><a href="06-galleria-e-spazio.html">6. Galleria media e spazio →</a></span></div></main></body></html>
+<body><nav class="side"><h1>Manuale di Postino</h1><ol><li><a href="index.html">Indice generale</a></li><li><a href="01-accesso-e-navigazione.html">1. Primo accesso e navigazione</a></li><li><a href="02-namespace-ruoli-utenti.html">2. Namespace, ruoli e utenti</a></li><li><a href="03-liste-e-iscritti.html">3. Liste e iscritti</a></li><li><a href="04-segmenti.html">4. Segmenti</a></li><li><a href="05-campagne.html" class="current">5. Campagne</a></li><li><a href="06-galleria-e-spazio.html">6. Galleria media e spazio</a></li><li><a href="07-statistiche.html">7. Statistiche</a></li><li><a href="08-cestino.html">8. Cestino e ripristino</a></li><li><a href="09-api.html">9. API per sviluppatori</a></li><li><a href="10-crediti-invii.html">10. Crediti sugli invii</a></li><li><a href="11-mittenti-e-invio.html">11. Mittenti e invio</a></li></ol></nav><main><div class="toc"><strong>In questa pagina</strong><ol><li><a href="#creare-una-campagna">Creare una campagna</a></li><li><a href="#scrivere-il-contenuto">Scrivere il contenuto</a></li><li><a href="#invio">Invio</a></li><li><a href="#digest-rss">Digest RSS</a></li><li><a href="#triggered">Triggered</a></li></ol></div><h1 id="5-campagne">5. Campagne</h1>
+<h2 id="creare-una-campagna">Creare una campagna</h2>
+<p>Vai in <strong>Campagne → Nuova campagna</strong>. Scegli il <strong>namespace</strong> e il <strong>tipo di
+campagna</strong>: non si cambia più dopo la creazione.</p>
+<ul>
+<li><strong>Normale (<code>regular</code>):</strong> una newsletter che invii tu, subito o pianificata.</li>
+<li><strong>Digest RSS:</strong> genera e invia automaticamente i nuovi articoli di un feed.</li>
+<li><strong>Triggered:</strong> innescata da un sistema esterno tramite API, non da qui.</li>
+</ul>
+<p>Compila nome, oggetto email e scegli il <strong>mittente</strong> (una configurazione di
+invio già creata in Mittenti). In <strong>Destinatari</strong> scegli una o più liste e
+segmenti: un iscritto presente in più destinatari riceve la campagna <strong>una
+sola volta</strong>.</p>
+<h2 id="scrivere-il-contenuto">Scrivere il contenuto</h2>
+<p>Puoi partire da un <strong>template</strong> esistente (opzionale): se il template era
+stato creato con l'editor visuale lo ritrovi così com'era; se era in
+HTML/testo semplice, parti da quel testo.</p>
+<p>Il contenuto si scrive in due modi, intercambiabili con un clic:</p>
+<ul>
+<li><strong>Editor visuale:</strong> componi il messaggio trascinando blocchi su un
+  canvas (lo stesso motore usato per i Template). Usa <strong>Galleria media</strong>
+  per inserire un'immagine già caricata o per caricarne una nuova — prima
+  seleziona una colonna del canvas, poi scegli l'immagine.</li>
+<li><strong>Modifica HTML:</strong> scrivi o incolli direttamente l'HTML in una casella di
+  testo. Puoi tornare all'editor visuale in qualsiasi momento con il link
+  "Editor visuale".</li>
+</ul>
+<p><strong>URL base delle immagini</strong> (opzionale): se nell'HTML usi percorsi relativi
+come <code>img/logo.png</code>, indica qui l'indirizzo da cui vanno recuperati (es.
+<code>https://tuosito.it/cartella/</code>).</p>
+<h3 id="libreria-di-scraping">Libreria di scraping</h3>
+<p>Nel pannello <strong>Libreria di scraping</strong>, a fianco dell'editor visuale, puoi
+incollare l'URL di una pagina web (tipicamente il tuo sito) e premere
+<strong>Scansiona</strong>: il sistema scarica testo e immagini della pagina, li ripulisce
+da stili e script e li mostra come blocchi da trascinare nel messaggio. Le
+pagine già scansionate restano come scorciatoie, anche se chiudi e riapri la
+campagna, per poterle riscansionare in futuro.</p>
+<p><strong>Attenzione</strong>, come ricorda l'avviso nel pannello: usa solo contenuti di cui
+hai i diritti (il tuo sito o materiale di tua proprietà) — la responsabilità
+dell'uso di contenuti di terzi è tua. Le immagini che trascini nel messaggio
+e poi salvi restano ospitate su Postino, non collegate al sito originale;
+quelle scaricate ma non usate vengono eliminate al salvataggio.</p>
+<h2 id="invio">Invio</h2>
+<p>Dalla scheda di una campagna in bozza:</p>
+<ul>
+<li><strong>Avvia invio:</strong> parte subito.</li>
+<li><strong>Pianifica:</strong> scegli data e ora (nel tuo fuso orario) e conferma — un
+  controllo automatico avvia la campagna quando arriva l'orario.</li>
+<li><strong>Invia prova:</strong> manda il messaggio a un indirizzo a tua scelta, per
+  controllare com'arriva prima dell'invio vero.</li>
+</ul>
+<p>Durante l'invio puoi <strong>metterlo in pausa</strong> e <strong>riprenderlo</strong>. Per annullare
+una campagna pianificata, in pausa o in corso usa <strong>Annulla</strong>: una campagna
+solo pianificata (non ancora partita) torna in <strong>bozza</strong>, così puoi
+pianificarla di nuovo o avviarla subito; una campagna che aveva già iniziato
+a inviare resta segnata come annullata, senza possibilità di ripianificarla.</p>
+<p>A invio terminato, <strong>Reinvia ai nuovi destinatari</strong> manda la campagna solo a
+chi, nel frattempo, è diventato un destinatario valido e non l'ha ancora
+ricevuta (per esempio un indirizzo che era in attesa di verifica email).</p>
+<p><strong>Duplica</strong> crea una copia della campagna in bozza, con lo stesso contenuto e
+le stesse impostazioni, utile per rimandare un invio annullato o ripetere una
+campagna simile.</p>
+<h2 id="digest-rss">Digest RSS</h2>
+<p>Alla creazione scegli "Digest RSS" e indica l'URL del feed: non serve
+scrivere il contenuto, viene generato automaticamente a ogni nuovo articolo
+(il controllo avviene periodicamente). Al primo controllo viene inviato solo
+l'articolo più recente, non tutto lo storico del feed. La scheda della
+campagna mostra l'URL del feed e il link dell'ultimo articolo già inviato.</p>
+<h2 id="triggered">Triggered</h2>
+<p>Alla creazione scegli "Triggered": oggetto e contenuto si scrivono come per
+una campagna normale (puoi anche inviare una prova), ma l'invio non parte da
+qui — lo innesca un sistema esterno con una chiave API dedicata (vedi il
+capitolo API). Il destinatario deve essere già iscritto e confermato sulla
+lista scelta come target: non viene iscritto automaticamente.</p><div class="pager"><span><a href="04-segmenti.html">← 4. Segmenti</a></span><span><a href="06-galleria-e-spazio.html">6. Galleria media e spazio →</a></span></div></main></body></html>

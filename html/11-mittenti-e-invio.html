@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>11. Mittenti e invio — Manuale di Postino</title>
+<style>
+:root { --ink:#1f2933; --muted:#6b7480; --line:#e4e7eb; --accent:#c79b00; --code:#f5f7f9; }
+* { box-sizing: border-box; }
+body { margin:0; font:16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; color:var(--ink); display:flex; min-height:100vh; }
+nav.side { width:280px; flex-shrink:0; border-right:1px solid var(--line); padding:24px 18px; position:sticky; top:0; height:100vh; overflow-y:auto; background:#fafbfc; }
+nav.side h1 { font-size:18px; margin:0 0 16px; }
+nav.side ol { list-style:none; padding:0; margin:0; }
+nav.side li { margin:4px 0; }
+nav.side a { color:var(--ink); text-decoration:none; display:block; padding:6px 8px; border-radius:6px; }
+nav.side a:hover { background:#eef1f4; }
+nav.side a.current { background:#fff4cc; font-weight:600; }
+nav.side .sub { margin-left:14px; font-size:14px; }
+nav.side .sub a { padding:3px 8px; color:var(--muted); }
+main { flex:1; max-width:860px; padding:36px 48px 80px; }
+h1 { font-size:30px; margin-top:0; }
+h2 { font-size:22px; margin-top:40px; border-bottom:1px solid var(--line); padding-bottom:6px; }
+h3 { font-size:18px; margin-top:28px; }
+h4 { font-size:16px; }
+code { background:var(--code); padding:1px 5px; border-radius:4px; font:14px ui-monospace, Menlo, Consolas, monospace; }
+pre { background:var(--code); padding:14px 16px; border-radius:8px; overflow-x:auto; border:1px solid var(--line); }
+pre code { background:none; padding:0; font-size:13px; }
+table { border-collapse:collapse; width:100%; margin:14px 0; font-size:15px; }
+th, td { border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top; }
+th { background:#fafbfc; }
+blockquote { margin:14px 0; padding:8px 14px; border-left:4px solid var(--accent); background:#fffaea; color:var(--ink); }
+.toc { background:#fafbfc; border:1px solid var(--line); border-radius:8px; padding:12px 18px; margin:20px 0 28px; }
+.toc ol { margin:6px 0; padding-left:20px; }
+.toc li { margin:3px 0; }
+.pager { display:flex; justify-content:space-between; margin-top:48px; border-top:1px solid var(--line); padding-top:18px; }
+.pager a { color:var(--ink); text-decoration:none; font-weight:600; }
+@media (max-width: 800px) { body { display:block; } nav.side { width:auto; height:auto; position:static; } main { padding:24px 18px; } }
+</style></head>
+<body><nav class="side"><h1>Manuale di Postino</h1><ol><li><a href="index.html">Indice generale</a></li><li><a href="01-accesso-e-navigazione.html">1. Primo accesso e navigazione</a></li><li><a href="02-namespace-ruoli-utenti.html">2. Namespace, ruoli e utenti</a></li><li><a href="03-liste-e-iscritti.html">3. Liste e iscritti</a></li><li><a href="04-segmenti.html">4. Segmenti</a></li><li><a href="05-campagne.html">5. Campagne</a></li><li><a href="06-galleria-e-spazio.html">6. Galleria media e spazio</a></li><li><a href="07-statistiche.html">7. Statistiche</a></li><li><a href="08-cestino.html">8. Cestino e ripristino</a></li><li><a href="09-api.html">9. API per sviluppatori</a></li><li><a href="10-crediti-invii.html">10. Crediti sugli invii</a></li><li><a href="11-mittenti-e-invio.html" class="current">11. Mittenti e invio</a></li></ol></nav><main><div class="toc"><strong>In questa pagina</strong><ol><li><a href="#nome">Nome</a></li><li><a href="#mittente">Mittente</a></li><li><a href="#rispondi-a">Rispondi a</a></li><li><a href="#relay-smtp">Relay SMTP</a></li><li><a href="#limiti-di-invio">Limiti di invio</a></li><li><a href="#gestione-bounce">Gestione bounce</a></li><li><a href="#verp">VERP</a></li><li><a href="#webhook-bounce">Webhook bounce</a></li><li><a href="#bounce-imap">Bounce IMAP</a></li><li><a href="#dkim">DKIM</a></li><li><a href="#avanzate">Avanzate</a></li></ol></div><h1 id="11-mittenti-e-invio">11. Mittenti e invio</h1>
+<p>Un <strong>mittente</strong> (configurazione di invio) raccoglie tutto il necessario per
+spedire le campagne di un namespace: l'indirizzo da cui partono, il relay
+SMTP che le invia materialmente, i limiti di velocità e il modo in cui
+vengono gestite le mancate consegne (bounce). Lo trovi in <strong>Mittenti</strong>, per
+ogni namespace su cui hai il ruolo di amministratore.</p>
+<p>Puoi creare più mittenti per lo stesso namespace (per esempio uno per le
+comunicazioni commerciali e uno per quelle informative) e scegliere, campagna
+per campagna, quale usare.</p>
+<p>Ogni campo del form ha accanto un punto interrogativo <strong>?</strong>: cliccandolo
+compare una breve spiegazione, con un link a questa pagina per i dettagli.</p>
+<h2 id="nome">Nome</h2>
+<p>Serve solo per riconoscere questo mittente nell'elenco (per esempio
+"Newsletter mensile"): non compare mai nelle email inviate né è visibile ai
+destinatari.</p>
+<h2 id="mittente">Mittente</h2>
+<ul>
+<li><strong>Nome visualizzato:</strong> il nome che il destinatario vede nella sua casella
+  di posta, accanto all'indirizzo email (per esempio "Redazione Postino").</li>
+<li><strong>Email mittente:</strong> l'indirizzo da cui parte la newsletter. Deve
+  appartenere a un dominio che controlli davvero: è quello dominio che viene
+  autenticato (SPF/DKIM) per non finire nello spam dei destinatari.</li>
+</ul>
+<h2 id="rispondi-a">Rispondi a</h2>
+<p>Indirizzo a cui arrivano le risposte dei destinatari, se diverso dall'email
+del mittente. Lascia vuoto per usare quest'ultima anche per le risposte.</p>
+<h2 id="relay-smtp">Relay SMTP</h2>
+<p>Il relay è il server che invia materialmente le email per tuo conto. Te lo
+fornisce il tuo provider di posta o di invio in massa (per esempio il tuo
+hosting, Gmail/Google Workspace, o un servizio dedicato come quelli citati
+più sotto).</p>
+<ul>
+<li><strong>Host e porta:</strong> l'indirizzo del server e la porta su cui è in ascolto.
+  Le combinazioni più comuni sono porta 587 con STARTTLS o porta 465 con
+  TLS; la porta 25 senza cifratura è sconsigliata fuori da una rete locale.</li>
+<li><strong>Sicurezza:</strong> il tipo di cifratura della connessione. STARTTLS e TLS
+  proteggono le credenziali durante l'invio; scegli "Nessuna" solo se sei
+  certo che la connessione resti in una rete locale sicura.</li>
+<li><strong>Utente e password:</strong> le credenziali di accesso al relay, fornite dal tuo
+  provider. Lascia vuoti se il relay non richiede autenticazione. Dopo il
+  salvataggio la password non viene più mostrata in chiaro: lasciala vuota
+  quando modifichi il mittente se non vuoi cambiarla.</li>
+</ul>
+<p>Prima di salvare, usa il bottone <strong>Verifica connessione SMTP</strong> per controllare
+che host, porta, sicurezza e credenziali siano corrette.</p>
+<h2 id="limiti-di-invio">Limiti di invio</h2>
+<ul>
+<li><strong>Email al secondo:</strong> quante email vengono inviate al massimo ogni
+  secondo su questo relay. Un valore troppo alto rispetto a quanto concesso
+  dal tuo provider può causare blocchi temporanei dell'invio.</li>
+<li><strong>Connessioni parallele:</strong> quante connessioni SMTP vengono aperte
+  contemporaneamente verso il relay durante un invio. Più connessioni
+  velocizzano l'invio delle campagne grandi, ma vanno mantenute entro i
+  limiti concessi dal provider.</li>
+</ul>
+<p>Se non sai quali valori usare, parti da quelli proposti di default e
+aumentali solo se il tuo provider ti garantisce limiti più alti.</p>
+<h2 id="gestione-bounce">Gestione bounce</h2>
+<p>Un bounce è la notifica che un'email non è arrivata a destinazione (casella
+piena, indirizzo inesistente...). Postino può riceverle in tre modi:</p>
+<ul>
+<li><strong>VERP (SMTP in ingresso):</strong> ogni email porta un indirizzo di ritorno
+  unico, e un bounce arriva direttamente a un server dedicato di Postino —
+  vedi la sezione VERP più sotto.</li>
+<li><strong>Webhook del provider:</strong> il provider di invio notifica Postino via
+  webhook. Scegli anche il <strong>servizio di invio</strong> (se tra quelli noti) così
+  Postino interpreta correttamente il formato delle notifiche.</li>
+<li><strong>Caselle IMAP:</strong> Postino legge periodicamente una casella email dedicata
+  ai bounce — vedi la sezione Bounce IMAP più sotto.</li>
+</ul>
+<h2 id="verp">VERP</h2>
+<p>Attivando VERP, ogni email in uscita porta un indirizzo di ritorno unico:
+quando arriva un bounce, Postino sa con certezza a quale invio e a quale
+destinatario corrisponde, senza doverlo indovinare dal testo della notifica.</p>
+<p>Il <strong>dominio VERP</strong> (per esempio <code>bounce.tuodominio.it</code>) è il dominio usato
+in quell'indirizzo di ritorno. Deve avere un record DNS che lo instrada al
+server dei bounce di Postino: il tuo amministratore di sistema può indicarti
+esattamente quale record impostare.</p>
+<h2 id="webhook-bounce">Webhook bounce</h2>
+<p>Il <strong>secret del webhook</strong> è una chiave segreta che permette a Postino di
+verificare che una notifica di bounce arrivi davvero dal provider scelto, e
+non da chiunque indovini l'indirizzo del webhook. Il provider stesso ti
+chiederà di inserire questa chiave nella sua configurazione.</p>
+<h2 id="bounce-imap">Bounce IMAP</h2>
+<ul>
+<li><strong>Host e porta:</strong> indirizzo e porta della casella email dedicata ai
+  bounce. Tipicamente porta 993 con cifratura (la più comune) o 143 senza.</li>
+<li><strong>Utente e password:</strong> le credenziali di accesso a quella casella.</li>
+<li><strong>Cartella:</strong> la cartella da controllare per i bounce, di norma <code>INBOX</code>
+  (la posta in arrivo).</li>
+</ul>
+<h2 id="dkim">DKIM</h2>
+<p>DKIM è una firma digitale che dimostra che le email partono davvero dal
+dominio che dicono di avere come mittente, e non sono contraffatte: è uno
+dei fattori più importanti per non finire nello spam.</p>
+<ul>
+<li><strong>Dominio DKIM:</strong> il dominio firmato — di norma coincide con il dominio
+  dell'email mittente.</li>
+<li><strong>Selettore DKIM:</strong> un'etichetta che indica quale chiave DKIM usare tra
+  quelle pubblicate nel DNS del dominio. Serve soprattutto per poter
+  cambiare la chiave in futuro senza interrompere l'invio.</li>
+<li><strong>Chiave privata DKIM:</strong> la chiave usata per firmare le email in uscita.
+  Va generata insieme a un record pubblico corrispondente, da pubblicare nel
+  DNS del dominio mittente — il tuo amministratore di sistema ti fornisce i
+  valori esatti da inserire.</li>
+</ul>
+<h2 id="avanzate">Avanzate</h2>
+<p><strong>List-Unsubscribe mailto:</strong> un indirizzo email alternativo per la
+disiscrizione in un clic, richiesto da alcuni client di posta oltre al link
+di disiscrizione già incluso automaticamente in ogni campagna.</p><div class="pager"><span><a href="10-crediti-invii.html">← 10. Crediti sugli invii</a></span><span></span></div></main></body></html>
