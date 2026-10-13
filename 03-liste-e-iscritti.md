@@ -31,6 +31,15 @@ Puoi cambiare la modalità in qualsiasi momento dalla pagina della lista, con il
 pulsante **Modifica**. La modifica vale per le iscrizioni future: chi è già nella
 lista non cambia stato.
 
+### Il mittente delle conferme
+
+Le mail di conferma partono da Postino con un **mittente gestito** il cui dominio
+è tra i [domini di invio verificati](12-domini-di-invio.md). Dalla stessa schermata
+di modifica scegli il mittente della lista; con "Automatico" si usa il primo mittente
+gestito del namespace con dominio verificato. Se non ce n'è nessuno, la lista non
+può usare una modalità diversa dal singolo e le iscrizioni con conferma vengono
+rifiutate con un messaggio che spiega cosa manca.
+
 ## La pagina della lista
 
 Aprendo una lista vedi:
