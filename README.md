@@ -19,6 +19,7 @@ per le funzioni riservate al super admin c'è il manuale dedicato.
 9. [API per sviluppatori (PHP, Ruby, Python)](09-api.md)
 10. [Crediti sugli invii](10-crediti-invii.md)
 11. [Mittenti e invio](11-mittenti-e-invio.md)
+12. [Domini di invio](12-domini-di-invio.md)
 
 ## Convenzioni
 

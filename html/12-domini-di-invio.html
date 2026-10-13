@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>12. Domini di invio — Manuale di Postino</title>
+<style>
+:root { --ink:#1f2933; --muted:#6b7480; --line:#e4e7eb; --accent:#c79b00; --code:#f5f7f9; }
+* { box-sizing: border-box; }
+body { margin:0; font:16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; color:var(--ink); display:flex; min-height:100vh; }
+nav.side { width:280px; flex-shrink:0; border-right:1px solid var(--line); padding:24px 18px; position:sticky; top:0; height:100vh; overflow-y:auto; background:#fafbfc; }
+nav.side h1 { font-size:18px; margin:0 0 16px; }
+nav.side ol { list-style:none; padding:0; margin:0; }
+nav.side li { margin:4px 0; }
+nav.side a { color:var(--ink); text-decoration:none; display:block; padding:6px 8px; border-radius:6px; }
+nav.side a:hover { background:#eef1f4; }
+nav.side a.current { background:#fff4cc; font-weight:600; }
+nav.side .sub { margin-left:14px; font-size:14px; }
+nav.side .sub a { padding:3px 8px; color:var(--muted); }
+main { flex:1; max-width:860px; padding:36px 48px 80px; }
+h1 { font-size:30px; margin-top:0; }
+h2 { font-size:22px; margin-top:40px; border-bottom:1px solid var(--line); padding-bottom:6px; }
+h3 { font-size:18px; margin-top:28px; }
+h4 { font-size:16px; }
+code { background:var(--code); padding:1px 5px; border-radius:4px; font:14px ui-monospace, Menlo, Consolas, monospace; }
+pre { background:var(--code); padding:14px 16px; border-radius:8px; overflow-x:auto; border:1px solid var(--line); }
+pre code { background:none; padding:0; font-size:13px; }
+table { border-collapse:collapse; width:100%; margin:14px 0; font-size:15px; }
+th, td { border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top; }
+th { background:#fafbfc; }
+blockquote { margin:14px 0; padding:8px 14px; border-left:4px solid var(--accent); background:#fffaea; color:var(--ink); }
+.toc { background:#fafbfc; border:1px solid var(--line); border-radius:8px; padding:12px 18px; margin:20px 0 28px; }
+.toc ol { margin:6px 0; padding-left:20px; }
+.toc li { margin:3px 0; }
+.pager { display:flex; justify-content:space-between; margin-top:48px; border-top:1px solid var(--line); padding-top:18px; }
+.pager a { color:var(--ink); text-decoration:none; font-weight:600; }
+@media (max-width: 800px) { body { display:block; } nav.side { width:auto; height:auto; position:static; } main { padding:24px 18px; } }
+</style></head>
+<body><nav class="side"><h1>Manuale di Postino</h1><ol><li><a href="index.html">Indice generale</a></li><li><a href="01-accesso-e-navigazione.html">1. Primo accesso e navigazione</a></li><li><a href="02-namespace-ruoli-utenti.html">2. Namespace, ruoli e utenti</a></li><li><a href="03-liste-e-iscritti.html">3. Liste e iscritti</a></li><li><a href="04-segmenti.html">4. Segmenti</a></li><li><a href="05-campagne.html">5. Campagne</a></li><li><a href="06-galleria-e-spazio.html">6. Galleria media e spazio</a></li><li><a href="07-statistiche.html">7. Statistiche</a></li><li><a href="08-cestino.html">8. Cestino e ripristino</a></li><li><a href="09-api.html">9. API per sviluppatori</a></li><li><a href="10-crediti-invii.html">10. Crediti sugli invii</a></li><li><a href="11-mittenti-e-invio.html">11. Mittenti e invio</a></li><li><a href="12-domini-di-invio.html" class="current">12. Domini di invio</a></li></ol></nav><main><div class="toc"><strong>In questa pagina</strong><ol><li><a href="#dominio-di-invio">Dominio di invio</a></li><li><a href="#record-da-pubblicare">Record da pubblicare</a></li><li><a href="#verifica">Verifica</a></li><li><a href="#stati-del-dominio">Stati del dominio</a></li><li><a href="#eliminare-un-dominio">Eliminare un dominio</a></li></ol></div><h1 id="12-domini-di-invio">12. Domini di invio</h1>
+<p>Per inviare le newsletter con l'invio gestito da Postino, il dominio del
+mittente deve essere un <strong>dominio di invio verificato</strong>. Lo configuri in
+<strong>Domini di invio</strong>, per ogni namespace su cui hai il ruolo di amministratore.</p>
+<p>Il motivo è la reputazione: i provider (Gmail, Outlook, Yahoo…) accettano bene
+solo le email che dimostrano di provenire davvero dal dominio indicato. Per
+questo Postino ti fa pubblicare alcuni record nel DNS e controlla che ci siano
+prima di consentire l'invio.</p>
+<h2 id="dominio-di-invio">Dominio di invio</h2>
+<p>È il dominio che compare nell'indirizzo del mittente, per esempio
+<code>esempio.com</code> o <code>news.esempio.com</code>. Puoi usare il dominio principale o un
+sottodominio dedicato. Devi poter aggiungere record nel suo DNS (pannello del
+tuo provider di dominio o del tuo hosting).</p>
+<p>I mittenti gestiti da Postino possono usare qualunque indirizzo di quel
+dominio (o dei suoi sottodomini).</p>
+<h2 id="record-da-pubblicare">Record da pubblicare</h2>
+<p>Dopo aver aggiunto il dominio, la pagina mostra una tabella con i record da
+inserire nel DNS. Accanto a ogni valore c'è il pulsante per copiarlo.</p>
+<ul>
+<li><strong>Prova di proprietà (TXT):</strong> dimostra che il dominio è tuo. Se il dominio è
+  un sottodominio di una zona di Postino non serve.</li>
+<li><strong>Firma DKIM (due CNAME):</strong> permettono a Postino di firmare le email a nome
+  del tuo dominio. Sono due per consentire la rotazione delle chiavi.</li>
+<li><strong>Bounce (CNAME):</strong> fa tornare a Postino le email respinte, così gli
+  indirizzi inesistenti vengono riconosciuti e non ricevono più invii.</li>
+<li><strong>DMARC (TXT):</strong> richiesto da Gmail e Yahoo. Se il dominio ha già un record
+  DMARC va bene quello esistente.</li>
+</ul>
+<p>Alcuni consigli ricorrenti:</p>
+<ul>
+<li>Se usi Cloudflare, disattiva il proxy (nuvola arancione) sui CNAME: devono
+  essere "solo DNS".</li>
+<li>Alcuni pannelli aggiungono da soli il dominio in fondo al nome: se il nome
+  compare ripetuto (<code>…esempio.com.esempio.com</code>), togli la parte finale.</li>
+<li>Copia i valori senza spazi né virgolette aggiuntive.</li>
+</ul>
+<h2 id="verifica">Verifica</h2>
+<p>Premi <strong>Verifica ora</strong> dopo aver pubblicato i record. Postino interroga
+direttamente i nameserver del tuo dominio, quindi una correzione si vede
+subito. Accanto a ogni record compare l'esito; se qualcosa non va, trovi cosa
+è stato letto e un suggerimento per correggere.</p>
+<p>Se il dominio è appena stato configurato, la propagazione del DNS può
+richiedere qualche minuto. Postino ricontrolla da solo ogni 15 minuti finché il
+dominio non è attivo.</p>
+<h2 id="stati-del-dominio">Stati del dominio</h2>
+<ul>
+<li><strong>In attesa della prova di proprietà / dei record DNS:</strong> non puoi ancora
+  inviare con questo dominio.</li>
+<li><strong>Attivo:</strong> puoi inviare. Postino ricontrolla i record una volta al giorno.</li>
+<li><strong>Sospeso:</strong> i record non risultano più corretti (per esempio sono stati
+  rimossi). Le campagne in corso vanno <strong>in pausa</strong> e ripartono da sole appena
+  i record tornano validi. Le campagne messe in pausa da te non ripartono da
+  sole.</li>
+</ul>
+<p>Un dominio attivo viene sospeso solo dopo due controlli falliti di fila: un
+problema temporaneo del DNS non interrompe gli invii.</p>
+<h2 id="eliminare-un-dominio">Eliminare un dominio</h2>
+<p>Eliminando un dominio, i mittenti che lo usano non potranno più inviare finché
+non ne verifichi un altro.</p><div class="pager"><span><a href="11-mittenti-e-invio.html">← 11. Mittenti e invio</a></span><span></span></div></main></body></html>
