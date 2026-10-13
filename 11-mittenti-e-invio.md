@@ -13,6 +13,17 @@ per campagna, quale usare.
 Ogni campo del form ha accanto un punto interrogativo **?**: cliccandolo
 compare una breve spiegazione, con un link a questa pagina per i dettagli.
 
+## Trasporto
+
+Scegli come vengono spedite le email di questo mittente:
+
+- **Invio gestito da Postino:** Postino spedisce per te, firmando le email con
+  il tuo dominio. L'email mittente deve appartenere a un [dominio di invio
+  verificato](12-domini-di-invio.md). Non servono host, credenziali né
+  impostazioni di bounce e DKIM: sono automatici.
+- **Relay SMTP esterno:** usi il server SMTP di un tuo provider. In questo caso
+  compili le sezioni seguenti (relay, bounce, DKIM).
+
 ## Nome
 
 Serve solo per riconoscere questo mittente nell'elenco (per esempio
