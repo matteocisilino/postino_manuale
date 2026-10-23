@@ -12,7 +12,15 @@ campagna**: non si cambia più dopo la creazione.
 Compila nome, oggetto email e scegli il **mittente** (una configurazione di
 invio già creata in Mittenti). In **Destinatari** scegli una o più liste e
 segmenti: un iscritto presente in più destinatari riceve la campagna **una
-sola volta**.
+sola volta**. Finché non scegli almeno un destinatario il pulsante per
+salvare resta disattivato, e sotto compare il link **Vai ai destinatari**.
+
+**Email mittente:** per una nuova campagna è precompilata con il tuo
+indirizzo, ed è l'indirizzo da cui partono la campagna e le prove. Svuotala
+per usare l'indirizzo del mittente scelto. Con l'invio gestito da Postino il
+dominio dell'indirizzo deve essere un dominio di invio verificato, altrimenti
+la campagna non parte. Con un relay SMTP, controlla che il tuo server di
+posta accetti quell'indirizzo come mittente.
 
 ## Scrivere il contenuto
 
@@ -71,10 +79,10 @@ quelle scaricate ma non usate vengono eliminate al salvataggio.
 
 Dalla scheda di una campagna in bozza:
 
-- **Avvia invio:** parte subito, senza ulteriori conferme. Postino prepara
-  prima l'elenco dei destinatari: per qualche secondo la scheda può ancora
-  mostrare la campagna come non avviata. Ricarica la pagina per seguire
-  l'avanzamento. Un secondo clic non provoca un doppio invio. Se l'invio non
+- **Avvia invio:** parte subito, senza ulteriori conferme. Compare il
+  messaggio "Invio avviato": Postino prepara l'elenco dei destinatari e
+  dopo pochi secondi la scheda si aggiorna da sola con l'avanzamento. Un
+  secondo clic non provoca un doppio invio. Se l'invio non
   può partire (per esempio perché la campagna è già stata avviata), il
   motivo compare in cima alla scheda.
 - **Pianifica:** scegli data e ora (nel tuo fuso orario) e conferma — un

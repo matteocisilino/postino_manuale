@@ -70,8 +70,7 @@ Per creare una campagna vai in **Campagne → Nuova**.
 7. **Salva.** Il pulsante **Salva** conserva la campagna senza inviarla.
 
 Per avviare l'invio apri la campagna e usa il pulsante di avvio: parte subito,
-senza conferma, e la scheda si aggiorna dopo qualche secondo (ricarica la
-pagina). Durante l'invio
+senza conferma, e la scheda si aggiorna da sola dopo pochi secondi. Durante l'invio
 puoi metterla in pausa, riprenderla o annullarla. Se un iscritto è in attesa di
 verifica email, la campagna lo segnala nel banner e non lo includerà finché
 l'esito non è disponibile.
