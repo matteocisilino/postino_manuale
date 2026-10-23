@@ -82,6 +82,11 @@ del tipo <code>pst_&lt;prefisso&gt;_&lt;segreto&gt;</code> ed è legata a:</p>
 </ul>
 <p>Il segreto viene mostrato <strong>una sola volta</strong>, alla creazione. Conservalo nel gestore
 di segreti del tuo sistema, mai nel codice sorgente.</p>
+<p>La chiave resta valida finché chi l'ha creata è attivo e amministratore del
+namespace. Se quell'utente viene disattivato, eliminato o perde il ruolo di
+amministratore, la chiave smette subito di funzionare e risponde <code>401</code>. Per le
+integrazioni che devono durare, crea la chiave con un account che resterà
+amministratore, e ricreala se quell'account cambia.</p>
 <p>Gli scope disponibili:</p>
 <table>
 <thead>
@@ -320,7 +325,11 @@ confermato, carrello abbandonato), non per gli invii di massa.</p>
 <li>il destinatario deve essere <strong>già iscritto e confermato</strong> alla lista della campagna;
   altrimenti risponde <code>404</code> e non invia nulla;</li>
 <li>i valori in <code>data</code> valgono solo per questo invio: diventano segnaposto come
-  <code>[ORDER_ID]</code> nel modello, senza essere salvati sull'iscritto.</li>
+  <code>[ORDER_ID]</code> nel modello, senza essere salvati sull'iscritto. Non possono
+  sostituire <code>[EMAIL]</code>, <code>[UNSUBSCRIBE_URL]</code> e <code>[PREFERENCES_URL]</code>, che restano
+  sempre quelli del destinatario;</li>
+<li>se la chiave è limitata ad alcune liste, può innescare solo le campagne la cui
+  lista di destinazione è tra quelle ammesse: per le altre risponde <code>404</code>.</li>
 </ul>
 <p>Corpo: <code>{"email": "...", "data": {"ORDER_ID": "A-1042"}}</code>. Risposta <code>200</code> con
 <code>{"status": "sent", "campaign_message_id": 68}</code>, oppure <code>"failed"</code> se il server di
