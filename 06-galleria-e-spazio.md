@@ -13,8 +13,10 @@ restano disponibili a chiunque lavori su quel namespace. La trovi aprendo
   namespace (stesso contenuto, anche con nome file diverso), Postino
   riconosce il duplicato e riusa quella già caricata, senza occupare altro
   spazio.
-- **Selezionare un'immagine:** nell'editor visuale, seleziona prima una
-  colonna del canvas, poi apri la galleria e scegli l'immagine da inserire.
+- **Selezionare un'immagine:** nell'editor visuale, seleziona prima un
+  elemento del canvas, poi apri la galleria e scegli l'immagine: viene
+  inserita subito dopo l'elemento selezionato. Per sostituire un'immagine
+  già nel messaggio, fai doppio clic su di essa.
 
 ## Lo spazio
 

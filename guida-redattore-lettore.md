@@ -58,9 +58,9 @@ Per creare una campagna vai in **Campagne → Nuova**.
 3. **Contenuto.** Usa l'editor visuale: trascini i blocchi nel messaggio. Se hai
    già un template, puoi partire da quello con **Parti da un template**.
 4. **Immagini.** Usa **Galleria media** per scegliere un'immagine già caricata
-   nel namespace, o per caricarne una nuova. Per inserirla, seleziona prima una
-   colonna nel messaggio: l'immagine va dentro quella colonna. Con un doppio clic
-   su un'immagine già presente, la galleria la sostituisce.
+   nel namespace, o per caricarne una nuova. Per inserirla, seleziona prima un
+   elemento nel messaggio: l'immagine viene inserita subito dopo. Con un doppio
+   clic su un'immagine già presente, la galleria la sostituisce.
 5. **Pagina da un sito.** Il pannello di scraping ti permette di copiare il
    contenuto di una pagina web, o gli ultimi articoli di un sito WordPress, e
    trascinarlo nel messaggio. Le immagini scaricate finiscono nella galleria del
@@ -69,7 +69,9 @@ Per creare una campagna vai in **Campagne → Nuova**.
    consentita solo al tuo indirizzo.
 7. **Salva.** Il pulsante **Salva** conserva la campagna senza inviarla.
 
-Per avviare l'invio apri la campagna e usa il pulsante di avvio. Durante l'invio
+Per avviare l'invio apri la campagna e usa il pulsante di avvio: parte subito,
+senza conferma, e la scheda si aggiorna dopo qualche secondo (ricarica la
+pagina). Durante l'invio
 puoi metterla in pausa, riprenderla o annullarla. Se un iscritto è in attesa di
 verifica email, la campagna lo segnala nel banner e non lo includerà finché
 l'esito non è disponibile.

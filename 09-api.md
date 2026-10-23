@@ -30,6 +30,12 @@ del tipo `pst_<prefisso>_<segreto>` ed è legata a:
 Il segreto viene mostrato **una sola volta**, alla creazione. Conservalo nel gestore
 di segreti del tuo sistema, mai nel codice sorgente.
 
+La chiave resta valida finché chi l'ha creata è attivo e amministratore del
+namespace. Se quell'utente viene disattivato, eliminato o perde il ruolo di
+amministratore, la chiave smette subito di funzionare e risponde `401`. Per le
+integrazioni che devono durare, crea la chiave con un account che resterà
+amministratore, e ricreala se quell'account cambia.
+
 Gli scope disponibili:
 
 | Scope | Permette |
@@ -239,7 +245,11 @@ Vincoli:
 - il destinatario deve essere **già iscritto e confermato** alla lista della campagna;
   altrimenti risponde `404` e non invia nulla;
 - i valori in `data` valgono solo per questo invio: diventano segnaposto come
-  `[ORDER_ID]` nel modello, senza essere salvati sull'iscritto.
+  `[ORDER_ID]` nel modello, senza essere salvati sull'iscritto. Non possono
+  sostituire `[EMAIL]`, `[UNSUBSCRIBE_URL]` e `[PREFERENCES_URL]`, che restano
+  sempre quelli del destinatario;
+- se la chiave è limitata ad alcune liste, può innescare solo le campagne la cui
+  lista di destinazione è tra quelle ammesse: per le altre risponde `404`.
 
 Corpo: `{"email": "...", "data": {"ORDER_ID": "A-1042"}}`. Risposta `200` con
 `{"status": "sent", "campaign_message_id": 68}`, oppure `"failed"` se il server di

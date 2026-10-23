@@ -43,8 +43,12 @@ Dalla pagina **Utenti e accessi** (riservata agli amministratori):
    - le sessioni aperte dell'utente vengono chiuse, anche su altri dispositivi.
    Se la revoca delle chiavi non riesce, la password non cambia e compare un messaggio di errore.
 
-Puoi modificare o reimpostare la password solo degli utenti che hanno ruoli soltanto
-nei tuoi namespace, figli compresi. Per un utente che ha ruoli anche in namespace
+Puoi modificare, attivare o disattivare un account e reimpostarne la password solo
+se l'utente ha ruoli soltanto nei tuoi namespace, figli compresi.
+
+Se disattivi un utente, lo elimini o gli togli il ruolo di amministratore, le chiavi
+API che aveva creato smettono subito di funzionare: le integrazioni che le usano
+vanno spostate su una chiave creata da un altro amministratore. Per un utente che ha ruoli anche in namespace
 gestiti da altri amministratori, l'operazione non è consentita.
 
 Il riquadro in fondo alla pagina riassume i tre livelli, con la descrizione di ciò

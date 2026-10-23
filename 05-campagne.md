@@ -24,11 +24,29 @@ Il contenuto si scrive in due modi, intercambiabili con un clic:
 
 - **Editor visuale:** componi il messaggio trascinando blocchi su un
   canvas (lo stesso motore usato per i Template). Usa **Galleria media**
-  per inserire un'immagine già caricata o per caricarne una nuova — prima
-  seleziona una colonna del canvas, poi scegli l'immagine.
-- **Modifica HTML:** scrivi o incolli direttamente l'HTML in una casella di
-  testo. Puoi tornare all'editor visuale in qualsiasi momento con il link
-  "Editor visuale".
+  per inserire un'immagine già caricata o per caricarne una nuova: prima
+  seleziona un elemento del canvas, poi scegli l'immagine, che viene
+  inserita subito dopo l'elemento selezionato. Per **sostituire**
+  un'immagine fai doppio clic su di essa e scegline un'altra dalla galleria.
+- **Modifica HTML:** la casella di testo parte dall'HTML del messaggio che
+  stai componendo nell'editor visuale, così puoi ritoccarlo o copiarlo.
+
+Il passaggio tra le due modalità funziona così:
+
+- Da **visuale a HTML** non perdi nulla: ritrovi esattamente il contenuto
+  del canvas, convertito in HTML.
+- Da **HTML a visuale** l'editor visuale riprende il suo contenuto, ma non
+  può importare l'HTML scritto a mano. Se nel frattempo hai modificato
+  l'HTML, Postino ti chiede conferma prima di scartare quelle modifiche.
+- Una campagna salvata in modalità HTML si riapre in HTML, e chi la apre
+  vede le modifiche fatte a mano. Passando all'editor visuale si riparte da
+  un modello nuovo, e anche qui viene chiesta conferma.
+
+**Tag di merge:** scrivi `[FIRST_NAME]`, `[EMAIL]`, `[UNSUBSCRIBE_URL]` o la
+chiave di un campo personalizzato in maiuscolo (es. `[CITTA]`) per inserire
+i dati di ogni iscritto. Un tag che non corrisponde a nessun campo, o un
+campo vuoto, diventa testo vuoto. Il resto del messaggio, comprese altre
+parentesi quadre, resta com'è.
 
 **URL base delle immagini** (opzionale): se nell'HTML usi percorsi relativi
 come `img/logo.png`, indica qui l'indirizzo da cui vanno recuperati (es.
@@ -53,7 +71,12 @@ quelle scaricate ma non usate vengono eliminate al salvataggio.
 
 Dalla scheda di una campagna in bozza:
 
-- **Avvia invio:** parte subito.
+- **Avvia invio:** parte subito, senza ulteriori conferme. Postino prepara
+  prima l'elenco dei destinatari: per qualche secondo la scheda può ancora
+  mostrare la campagna come non avviata. Ricarica la pagina per seguire
+  l'avanzamento. Un secondo clic non provoca un doppio invio. Se l'invio non
+  può partire (per esempio perché la campagna è già stata avviata), il
+  motivo compare in cima alla scheda.
 - **Pianifica:** scegli data e ora (nel tuo fuso orario) e conferma — un
   controllo automatico avvia la campagna quando arriva l'orario.
 - **Invia prova:** manda il messaggio a un indirizzo a tua scelta, per
