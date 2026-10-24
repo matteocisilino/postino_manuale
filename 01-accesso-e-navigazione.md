@@ -17,12 +17,14 @@ quella ricevuta. Il cambio ti porta di nuovo alla console.
 La barra laterale raggruppa le sezioni in quattro gruppi:
 
 - **Contenuti:** Liste, Campagne, Template.
-- **Consegna:** Mittenti, Bounce e soppressioni.
+- **Consegna:** Domini di invio, Mittenti, Bounce e soppressioni.
 - **Accesso:** Namespace, Spazio media, Utenti e accessi, Chiavi API, Webhook.
 - **Sistema:** Registro attività, Cestino, Stato del sistema, Impostazioni.
 
-Alcune voci compaiono solo se hai il ruolo adatto: per esempio "Utenti e accessi"
-richiede di essere amministratore del namespace.
+Alcune voci compaiono solo se hai il ruolo adatto. Domini di invio, Mittenti,
+Spazio media, Utenti e accessi, Chiavi API e Webhook si vedono solo se sei
+amministratore di almeno un namespace; redattori e lettori non le trovano nel
+menu. Sotto il tuo nome vedi il livello: Utente o Amministratore.
 
 ## La panoramica
 

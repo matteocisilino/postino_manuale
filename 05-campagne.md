@@ -15,8 +15,8 @@ segmenti: un iscritto presente in più destinatari riceve la campagna **una
 sola volta**. Finché non scegli almeno un destinatario il pulsante per
 salvare resta disattivato, e sotto compare il link **Vai ai destinatari**.
 
-**Email mittente:** per una nuova campagna è precompilata con il tuo
-indirizzo, ed è l'indirizzo da cui partono la campagna e le prove. Svuotala
+**Email mittente:** per una nuova campagna è precompilata con l'indirizzo
+dell'utente che la crea, ed è l'indirizzo da cui partono la campagna e le prove. Svuotala
 per usare l'indirizzo del mittente scelto. Con l'invio gestito da Postino il
 dominio dell'indirizzo deve essere un dominio di invio verificato, altrimenti
 la campagna non parte. Con un relay SMTP, controlla che il tuo server di
