@@ -23,8 +23,9 @@ La barra laterale raggruppa le sezioni in quattro gruppi:
 
 Alcune voci compaiono solo se hai il ruolo adatto. Domini di invio, Mittenti,
 Spazio media, Utenti e accessi, Chiavi API e Webhook si vedono solo se sei
-amministratore di almeno un namespace; redattori e lettori non le trovano nel
-menu. Sotto il tuo nome vedi il livello: Utente o Amministratore.
+amministratore di almeno un namespace; lo stesso vale per Namespace, Crediti,
+Registro attività, Listino e Stato del sistema. Redattori e lettori non le
+trovano nel menu. Sotto il tuo nome vedi il livello: Utente o Amministratore.
 
 ## La panoramica
 
@@ -35,6 +36,9 @@ La voce **Panoramica** apre la pagina iniziale. Mostra:
 - il riquadro **Crediti recipientcheck**, se la verifica email è attiva per i tuoi
   namespace: saldo e costo di una verifica;
 - le richieste di assistenza in attesa, se sei super admin.
+
+Se sei redattore o lettore, in alto trovi una guida in tre passi: scegli la
+lista, crea la campagna, invia o pianifica.
 
 ## Il namespace attivo
 

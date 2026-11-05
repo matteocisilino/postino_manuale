@@ -21,6 +21,8 @@ Scegli come vengono spedite le email di questo mittente:
   il tuo dominio. L'email mittente deve appartenere a un [dominio di invio
   verificato](12-domini-di-invio.md). Non servono host, credenziali né
   impostazioni di bounce e DKIM: sono automatici.
+  Il server che spedisce (KumoMTA) può stare anche su una macchina separata:
+  lo configura il super admin del sistema, tu non devi fare nulla di diverso.
 - **Relay SMTP esterno:** usi il server SMTP di un tuo provider. In questo caso
   compili le sezioni seguenti (relay, bounce, DKIM).
 

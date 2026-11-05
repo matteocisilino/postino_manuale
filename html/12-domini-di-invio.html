@@ -34,7 +34,7 @@ blockquote { margin:14px 0; padding:8px 14px; border-left:4px solid var(--accent
 .pager a { color:var(--ink); text-decoration:none; font-weight:600; }
 @media (max-width: 800px) { body { display:block; } nav.side { width:auto; height:auto; position:static; } main { padding:24px 18px; } }
 </style></head>
-<body><nav class="side"><h1>Manuale di Postino</h1><ol><li><a href="index.html">Indice generale</a></li><li><a href="01-accesso-e-navigazione.html">1. Primo accesso e navigazione</a></li><li><a href="02-namespace-ruoli-utenti.html">2. Namespace, ruoli e utenti</a></li><li><a href="03-liste-e-iscritti.html">3. Liste e iscritti</a></li><li><a href="04-segmenti.html">4. Segmenti</a></li><li><a href="05-campagne.html">5. Campagne</a></li><li><a href="06-galleria-e-spazio.html">6. Galleria media e spazio</a></li><li><a href="07-statistiche.html">7. Statistiche</a></li><li><a href="08-cestino.html">8. Cestino e ripristino</a></li><li><a href="09-api.html">9. API per sviluppatori</a></li><li><a href="10-crediti-invii.html">10. Crediti sugli invii</a></li><li><a href="11-mittenti-e-invio.html">11. Mittenti e invio</a></li><li><a href="12-domini-di-invio.html" class="current">12. Domini di invio</a></li></ol></nav><main><div class="toc"><strong>In questa pagina</strong><ol><li><a href="#dominio-di-invio">Dominio di invio</a></li><li><a href="#record-da-pubblicare">Record da pubblicare</a></li><li><a href="#verifica">Verifica</a></li><li><a href="#stati-del-dominio">Stati del dominio</a></li><li><a href="#eliminare-un-dominio">Eliminare un dominio</a></li></ol></div><h1 id="12-domini-di-invio">12. Domini di invio</h1>
+<body><nav class="side"><h1>Manuale di Postino</h1><ol><li><a href="index.html">Indice generale</a></li><li><a href="01-accesso-e-navigazione.html">1. Primo accesso e navigazione</a></li><li><a href="02-namespace-ruoli-utenti.html">2. Namespace, ruoli e utenti</a></li><li><a href="03-liste-e-iscritti.html">3. Liste e iscritti</a></li><li><a href="04-segmenti.html">4. Segmenti</a></li><li><a href="05-campagne.html">5. Campagne</a></li><li><a href="06-galleria-e-spazio.html">6. Galleria media e spazio</a></li><li><a href="07-statistiche.html">7. Statistiche</a></li><li><a href="08-cestino.html">8. Cestino e ripristino</a></li><li><a href="09-api.html">9. API per sviluppatori</a></li><li><a href="10-crediti-invii.html">10. Crediti sugli invii</a></li><li><a href="11-mittenti-e-invio.html">11. Mittenti e invio</a></li><li><a href="12-domini-di-invio.html" class="current">12. Domini di invio</a></li></ol></nav><main><div class="toc"><strong>In questa pagina</strong><ol><li><a href="#dominio-di-invio">Dominio di invio</a></li><li><a href="#la-zona-di-invio">La zona di invio</a></li><li><a href="#record-da-pubblicare">Record da pubblicare</a></li><li><a href="#verifica">Verifica</a></li><li><a href="#stati-del-dominio">Stati del dominio</a></li><li><a href="#eliminare-un-dominio">Eliminare un dominio</a></li></ol></div><h1 id="12-domini-di-invio">12. Domini di invio</h1>
 <p>Per inviare le newsletter con l'invio gestito da Postino, il dominio del
 mittente deve essere un <strong>dominio di invio verificato</strong>. Lo configuri in
 <strong>Domini di invio</strong>, per ogni namespace su cui hai il ruolo di amministratore.</p>
@@ -49,6 +49,19 @@ sottodominio dedicato. Devi poter aggiungere record nel suo DNS (pannello del
 tuo provider di dominio o del tuo hosting).</p>
 <p>I mittenti gestiti da Postino possono usare qualunque indirizzo di quel
 dominio (o dei suoi sottodomini).</p>
+<h2 id="la-zona-di-invio">La zona di invio</h2>
+<p>I CNAME dei domini puntano a una <strong>zona</strong> gestita da Postino. In <strong>Domini di
+invio</strong>, il riquadro <strong>Zona di invio</strong> mostra quella in uso:</p>
+<ul>
+<li><strong>Predefinita:</strong> la imposta il super admin sul server. Se non c'è, non puoi
+  aggiungere domini e compare un messaggio che lo spiega.</li>
+<li><strong>Propria:</strong> puoi indicare un dominio o sottodominio che gestisci tu (per
+  esempio <code>invio.esempio.com</code>). Il riquadro mostra i record jolly da
+  pubblicare nel suo DNS, una volta sola, e <strong>Verifica la zona</strong> li controlla.</li>
+</ul>
+<p>La zona non si può cambiare finché nel namespace (o in quelli sottostanti)
+esistono domini di invio: vanno prima eliminati, perché i loro record
+punterebbero alla zona vecchia.</p>
 <h2 id="record-da-pubblicare">Record da pubblicare</h2>
 <p>Dopo aver aggiunto il dominio, la pagina mostra una tabella con i record da
 inserire nel DNS. Accanto a ogni valore c'è il pulsante per copiarlo.</p>
@@ -59,6 +72,13 @@ inserire nel DNS. Accanto a ogni valore c'è il pulsante per copiarlo.</p>
   del tuo dominio. Sono due per consentire la rotazione delle chiavi.</li>
 <li><strong>Bounce (CNAME):</strong> fa tornare a Postino le email respinte, così gli
   indirizzi inesistenti vengono riconosciuti e non ricevono più invii.</li>
+<li><strong>Tracking (CNAME, facoltativo):</strong> <code>link.tuodominio</code> fa comparire il tuo
+  dominio nei link e nelle aperture delle campagne, al posto di quello di
+  Postino. Si attiva con la casella "Tracking sul mio dominio" quando aggiungi
+  il dominio, o in seguito con l'interruttore sulla scheda del dominio. Il
+  certificato HTTPS viene creato da solo. Finché il record non risulta
+  corretto i link usano il dominio di Postino, quindi non si rompono; il
+  tracking sul tuo dominio vale per l'invio gestito, non per il relay SMTP.</li>
 <li><strong>DMARC (TXT):</strong> richiesto da Gmail e Yahoo. Se il dominio ha già un record
   DMARC va bene quello esistente.</li>
 </ul>
@@ -88,6 +108,8 @@ dominio non è attivo.</p>
   i record tornano validi. Le campagne messe in pausa da te non ripartono da
   sole.</li>
 </ul>
+<p>Il record di tracking non blocca l'attivazione né sospende il dominio: se
+manca, i link continuano a usare il dominio di Postino.</p>
 <p>Un dominio attivo viene sospeso solo dopo due controlli falliti di fila: un
 problema temporaneo del DNS non interrompe gli invii.</p>
 <h2 id="eliminare-un-dominio">Eliminare un dominio</h2>

@@ -51,7 +51,9 @@ compare una breve spiegazione, con un link a questa pagina per i dettagli.</p>
 <li><strong>Invio gestito da Postino:</strong> Postino spedisce per te, firmando le email con
   il tuo dominio. L'email mittente deve appartenere a un <a href="12-domini-di-invio.md">dominio di invio
   verificato</a>. Non servono host, credenziali né
-  impostazioni di bounce e DKIM: sono automatici.</li>
+  impostazioni di bounce e DKIM: sono automatici.
+  Il server che spedisce (KumoMTA) può stare anche su una macchina separata:
+  lo configura il super admin del sistema, tu non devi fare nulla di diverso.</li>
 <li><strong>Relay SMTP esterno:</strong> usi il server SMTP di un tuo provider. In questo caso
   compili le sezioni seguenti (relay, bounce, DKIM).</li>
 </ul>

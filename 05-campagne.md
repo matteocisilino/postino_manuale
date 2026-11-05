@@ -79,7 +79,7 @@ quelle scaricate ma non usate vengono eliminate al salvataggio.
 
 Dalla scheda di una campagna in bozza:
 
-- **Avvia invio:** parte subito, senza ulteriori conferme. Compare il
+- **Avvia invio:** chiede una conferma, poi parte subito. Compare il
   messaggio "Invio avviato": Postino prepara l'elenco dei destinatari e
   dopo pochi secondi la scheda si aggiorna da sola con l'avanzamento. Un
   secondo clic non provoca un doppio invio. Se l'invio non
